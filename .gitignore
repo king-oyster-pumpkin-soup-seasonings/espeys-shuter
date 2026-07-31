@@ -105,3 +105,52 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+
+
+# =========================================================================
+# Unity Ignored Folders & Files
+# =========================================================================
+/[L|l]ibrary/
+/[T|t]emp/
+/[O|o]bj/
+/[B|b]uild/
+/[B|b]uilds/
+/[L|l]ogs/
+/[U|u]ser[S|s]ettings/
+/[M|m]emoryCaptures/
+
+# =========================================================================
+# Visual Studio / IDE / Auto-Generated Solution Files
+# =========================================================================
+/*.sln
+/*.slnx
+/*.csproj
+/*.unityproj
+/*.suo
+/*.user
+/*.userprefs
+/*.pidb
+/*.booproj
+/*.svd
+/*.pdb
+/*.opendb
+/*.VC.db
+/.vs/
+/.idea/
+/.vscode/
+
+# =========================================================================
+# Unity Project Settings (Ignore user-specific settings)
+# =========================================================================
+/ProjectSettings/PackageManagerSettings.asset
+/ProjectSettings/SceneTemplateSettings.json
+
+# =========================================================================
+# OS Generated Files
+# =========================================================================
+.DS_Store
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
