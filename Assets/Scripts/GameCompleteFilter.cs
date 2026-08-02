@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class GameCompleteFilter : MonoBehaviour
 {
-    public Material filterMaterial;
-    public float fadeDuration = 2f;
+    [SerializeField] private Material filterMaterial;
+    [SerializeField] private float fadeDuration;
 
     void Start()
     {
-        // Start the fade as soon as GameCompleteScene loads
+        if (fadeDuration == 0) fadeDuration = 2f;
         StartCoroutine(FadeInFilter());
     }
 
@@ -30,7 +30,6 @@ public class GameCompleteFilter : MonoBehaviour
 
     void OnDestroy()
     {
-        // Reset back to 0 when leaving the scene so other scenes stay normal
         if (filterMaterial != null)
         {
             filterMaterial.SetFloat("_FilterStrength", 0f);
