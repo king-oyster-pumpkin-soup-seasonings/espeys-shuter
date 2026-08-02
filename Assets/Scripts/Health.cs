@@ -21,13 +21,19 @@ public class Health : MonoBehaviour
         OnHealthChanged.Invoke(currentHealth);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (gameObject.CompareTag("Enemy") && other.gameObject.CompareTag("PlayerBullet") ||
+            gameObject.CompareTag("Enemy") && other.gameObject.CompareTag("Player") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("EnemyBullet") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("Enemy"))
         {
             TakeDamage();
+
+            if (other.CompareTag("PlayerBullet") || other.CompareTag("EnemyBullet"))
+            {
+                Destroy(other.gameObject);
+            }
         }
     }
 
@@ -40,7 +46,6 @@ public class Health : MonoBehaviour
         if (currentHealth <= 0)
         {
             OnDied.Invoke();
-            if (!gameObject.CompareTag("Player")) Destroy(gameObject);
         }
     }
 }
