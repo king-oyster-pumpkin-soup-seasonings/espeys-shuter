@@ -24,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        previousPosition = transform.position;
         if (playerRigidBody.position.x >= 9f)
         {
             playerRigidBody.position = new Vector2(-9f, playerRigidBody.position.y);
@@ -33,6 +32,19 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRigidBody.position = new Vector2(9f, playerRigidBody.position.y);
         }
+
+        if (playerRigidBody.position.y >= 4.67f)
+        {
+            playerRigidBody.position = new Vector2(playerRigidBody.position.x, 4.67f);
+            playerRigidBody.linearVelocity = new Vector2(playerRigidBody.linearVelocity.x, 0);
+        }
+
+        else if (playerRigidBody.position.y <= -4.67f)
+        {
+            playerRigidBody.position = new Vector2(playerRigidBody.position.x, -4.67f);
+            playerRigidBody.linearVelocity = new Vector2(playerRigidBody.linearVelocity.x, 0);
+        }
+
 
         playerRigidBody.AddForce(movementKey * movementSpeed);
     }
