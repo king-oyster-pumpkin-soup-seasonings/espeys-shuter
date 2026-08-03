@@ -12,12 +12,21 @@ public class GameManager : MonoBehaviour
     [Header("UI References")] [SerializeField]
     private TextMeshProUGUI textPlayerHealth;
 
+    [SerializeField] TextMeshProUGUI textMessage;
+
     [SerializeField] private TextMeshProUGUI textScore;
+
+    [SerializeField] float displayInterval;
+    private float time;
+
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        textMessage.text = "";
+        ShowObjectives();
     }
 
     public void InitializeValues()
@@ -42,6 +51,19 @@ public class GameManager : MonoBehaviour
         }
 
         if (textPlayerHealth != null) textPlayerHealth.text = iconifiedPlayerHealth;
+    }
+
+    public void ShowObjectives()
+    {
+        textMessage.text = "Survive and defeat the final boss!";
+        StartCoroutine(StartTextInterval(displayInterval));
+    }
+
+
+    IEnumerator StartTextInterval(float paramDisplayInterval = 3f)
+    {
+        yield return new WaitForSeconds(paramDisplayInterval);
+        textMessage.text = "";
     }
 
     public void DeclareGameOver()

@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Sprite explosionSprite;
     private Transform playerTransform;
     private bool isExploding;
+    [SerializeField] private int scoreValue = 10;
 
     void Start()
     {
@@ -31,7 +32,11 @@ public class Enemy : MonoBehaviour
 
     public void Explode()
     {
+        if (isExploding) return;
         isExploding = true;
+
+        if (GameManager.Instance != null)
+            GameManager.Instance.AddScore(scoreValue);
 
         enemyRB.linearVelocity = Vector2.zero;
 
