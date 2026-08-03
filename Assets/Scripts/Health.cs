@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,12 +11,22 @@ public class Health : MonoBehaviour
     [SerializeField] private UnityEvent<int> OnHealthChanged;
     [SerializeField] private UnityEvent OnDied;
 
+    // shields
+    [SerializeField] GameObject shield;
+    private SpriteRenderer shieldSR;
+    public bool onShield;
+
     // --- methods ---
     void Start()
     {
         // data
         if (maxHealth == 0) maxHealth = 1;
         currentHealth = maxHealth;
+
+        if (shield == null) GameObject.FindGameObjectWithTag("Shield");
+        if (shield != null && shieldSR == null) shieldSR = shield.GetComponent<SpriteRenderer>();
+        if (shieldSR != null) shieldSR.enabled = false;
+        onShield = false;
 
         // ui
         OnHealthChanged.Invoke(currentHealth);
@@ -35,10 +46,41 @@ public class Health : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+
+        if (gameObject.CompareTag("Player"))
+        {
+            if (other.gameObject.CompareTag("PowerUpHealth"))
+            {
+                if (currentHealth < maxHealth)
+                {
+                    currentHealth++;
+                    OnHealthChanged.Invoke(currentHealth);
+                    Destroy(other.gameObject);
+                }
+            }
+
+            if (other.gameObject.CompareTag("PowerUpMaxHealth"))
+            {
+                maxHealth++;
+                currentHealth++;
+                OnHealthChanged.Invoke(currentHealth);
+                Destroy(other.gameObject);
+            }
+
+            if (other.CompareTag("PowerUpShield"))
+            {
+                Destroy(other.gameObject);
+                if (shieldSR != null) StartCoroutine(GainShieldCoroutine());
+            }
+        }
     }
+
 
     public void TakeDamage()
     {
+        // condition
+        if (onShield) return;
+
         // data
         currentHealth--;
         OnHealthChanged.Invoke(currentHealth);
@@ -47,5 +89,14 @@ public class Health : MonoBehaviour
         {
             OnDied.Invoke();
         }
+    }
+
+    private IEnumerator GainShieldCoroutine()
+    {
+        onShield = true;
+        shieldSR.enabled = true;
+        yield return new WaitForSeconds(5f);
+        shieldSR.enabled = false;
+        onShield = false;
     }
 }

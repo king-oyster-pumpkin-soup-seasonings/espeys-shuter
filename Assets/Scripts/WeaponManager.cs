@@ -49,4 +49,13 @@ public class WeaponManager : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("PowerUpBulletSpeed"))
+        {
+            Destroy(other.gameObject);
+            if (fireRate != 0) fireRate -= 0.2f;
+        }
+    }
 }

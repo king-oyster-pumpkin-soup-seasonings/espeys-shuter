@@ -8,13 +8,14 @@ public class PowerUpSpawner : MonoBehaviour
 
     void Start()
     {
-        if (spawnInterval == 0) spawnInterval = 1f;
+        if (spawnInterval == 0) spawnInterval = 3f;
         time = 0;
     }
 
     void Update()
     {
-        if (GameManager.Instance.isMessageDone == false) return;
+        if (GameManager.Instance.isMessageDone == false ||
+            powerups == null) return;
 
         if (time < spawnInterval)
         {
@@ -24,7 +25,8 @@ public class PowerUpSpawner : MonoBehaviour
         {
             transform.position = new Vector2(Random.Range(-9f, 9f), transform.position.y);
             time = 0;
-            // Instantiate(powerups[0], transform.position, transform.rotation);
+            spawnInterval = Random.Range(3f, 10f);
+            Instantiate(powerups[Random.Range(0, powerups.Length)], transform.position, transform.rotation);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Numerics;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
@@ -12,12 +13,14 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementKey;
     private bool isExploding;
 
+
     void Start()
     {
         isExploding = false;
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         if (playerRigidBody == null) playerRigidBody = GetComponent<Rigidbody2D>();
         if (movementSpeed == 0) movementSpeed = 3;
+
 
         GoToSpawnPoint();
     }
@@ -76,5 +79,15 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.sprite = explosionSprite;
 
         Destroy(gameObject, 0.3f);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("PowerUpMovementSpeed"))
+        {
+            Destroy(other.gameObject);
+            movementSpeed += 2;
+            playerRigidBody.linearDamping += 0.4f;
+        }
     }
 }

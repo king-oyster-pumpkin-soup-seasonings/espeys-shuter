@@ -17,6 +17,9 @@ TagManager:
   - WeaponDoubleBullet
   - WeaponLaser
   - WeaponMissile
+  - PowerUpShield
+  - PowerUpBulletSpeed
+  - PowerUpMovementSpeed
   layers:
   - Default
   - TransparentFX

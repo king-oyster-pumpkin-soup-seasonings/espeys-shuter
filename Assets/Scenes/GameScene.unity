@@ -156,6 +156,7 @@ MonoBehaviour:
   textWave: {fileID: 1167155970}
   displayInterval: 3
   isMessageDone: 0
+  isSelectingWeapon: 0
 --- !u!4 &13588067
 Transform:
   m_ObjectHideFlags: 0
@@ -322,9 +323,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   playerRigidBody: {fileID: 21090741}
-  bullet: {fileID: 5346231957310930420, guid: 82f75ee4e48f9ec9b8e5464cebe76f9a, type: 3}
-  fireRate: 1
-  soloBarrelPoint: {fileID: 1834913250}
   spriteRenderer: {fileID: 0}
   explosionSprite: {fileID: 0}
 --- !u!50 &21090741
@@ -912,9 +910,12 @@ GameObject:
   m_Component:
   - component: {fileID: 774506815}
   - component: {fileID: 774506814}
+  - component: {fileID: 774506818}
+  - component: {fileID: 774506817}
+  - component: {fileID: 774506816}
   m_Layer: 0
-  m_Name: PowerUp
-  m_TagString: PowerUp
+  m_Name: PowerUpBulletSpeed
+  m_TagString: PowerUpBulletSpeed
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -989,6 +990,94 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &774506816
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774506813}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &774506817
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774506813}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.26, y: 0.24}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.26, y: 0.24}
+  m_EdgeRadius: 0
+--- !u!114 &774506818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774506813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64051176ae294745d8d78595a8e280b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpRB: {fileID: 774506816}
+  movementSpeed: 0
+  powerUpLifespan: 0
 --- !u!1 &987193503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,7 +1135,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Choose a weapon:'
+  m_text: Hello spacecraft!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 096e95b0a17fe0dd9969f09534d9be43, type: 2}
   m_sharedMaterial: {fileID: -3529483795251243585, guid: 096e95b0a17fe0dd9969f09534d9be43, type: 2}
@@ -2252,7 +2341,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &1939482212
 RectTransform:
