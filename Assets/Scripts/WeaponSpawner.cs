@@ -1,30 +1,76 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponSpawner : MonoBehaviour
 {
-    [SerializeField] private float spawnInterval;
     [SerializeField] private GameObject[] weapons;
-    private float time;
+    private GameObject[] availableWeaponsToChoose;
+    private List<GameObject> unacquiredWeapons = new();
+    public bool isDone;
+
+
+    public static WeaponSpawner Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+
+        availableWeaponsToChoose = new GameObject[2];
+    }
 
     void Start()
     {
-        if (spawnInterval == 0) spawnInterval = 1f;
-        time = 0;
+        isDone = false;
     }
 
-    void Update()
+    public void TriggerWeaponChooser()
     {
-        if (GameManager.Instance.isMessageDone == false) return;
+        Debug.Log("TriggerWeaponChooser called");
+        isDone = false;
+        AvailWeapons();
+        DisplayWeaponChooser();
+    }
 
-        if (time < spawnInterval)
+    void AvailWeapons()
+    {
+        if (weapons is null) return;
+
+        Debug.Log($"AVAIL WEAPONS TRIGGERED\n"); // debug
+
+        unacquiredWeapons.Clear();
+        bool ownsWeapon;
+        for (int i = 0; i < weapons.Length; i++)
         {
-            time += Time.deltaTime;
+            ownsWeapon = false;
+            for (int j = 0; j < WeaponManager.Instance.weaponSet.Count; j++)
+            {
+                if (WeaponManager.Instance.weaponSet[j] == weapons[i])
+                {
+                    ownsWeapon = true;
+                    break;
+                }
+            }
+
+            if (!ownsWeapon) unacquiredWeapons.Add(weapons[i]);
         }
-        else
-        {
-            transform.position = new Vector2(Random.Range(-9f, 9f), transform.position.y);
-            time = 0;
-            // Instantiate(weapons[0], transform.position, transform.rotation);
-        }
+
+        if (unacquiredWeapons.Count <= 1) return;
+        int randomIndex1 = Random.Range(0, unacquiredWeapons.Count);
+        int randomIndex2;
+
+        do randomIndex2 = Random.Range(0, unacquiredWeapons.Count);
+        while (randomIndex2 == randomIndex1);
+
+        availableWeaponsToChoose[0] = unacquiredWeapons[randomIndex1];
+        availableWeaponsToChoose[1] = unacquiredWeapons[randomIndex2];
+    }
+
+    void DisplayWeaponChooser()
+    {
+        Instantiate(availableWeaponsToChoose[0], new Vector2(1.5f, 2f), Quaternion.identity);
+        Instantiate(availableWeaponsToChoose[1], new Vector2(-1.5f, 2f), Quaternion.identity);
+
+        isDone = true;
     }
 }

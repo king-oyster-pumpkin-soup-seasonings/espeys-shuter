@@ -11,6 +11,12 @@ TagManager:
   - PowerUp
   - PlayerBullet
   - EnemyBoss
+  - DoubleBullet
+  - Laser
+  - WeaponBomb
+  - WeaponDoubleBullet
+  - WeaponLaser
+  - WeaponMissile
   layers:
   - Default
   - TransparentFX

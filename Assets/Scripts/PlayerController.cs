@@ -7,20 +7,15 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
     [SerializeField] private Rigidbody2D playerRigidBody;
-    [SerializeField] private GameObject bullet;
-    [SerializeField] private float fireRate;
-    [SerializeField] private Transform soloBarrelPoint;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite explosionSprite;
     private Vector2 movementKey;
-    private float nextFireTime;
     private bool isExploding;
 
     void Start()
     {
         isExploding = false;
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
-        if (fireRate == 0) fireRate = 1;
         if (playerRigidBody == null) playerRigidBody = GetComponent<Rigidbody2D>();
         if (movementSpeed == 0) movementSpeed = 3;
 
@@ -41,14 +36,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.J))
         {
-            if (Time.time >= nextFireTime)
-            {
-                if (bullet != null && soloBarrelPoint != null)
-                {
-                    Instantiate(bullet, soloBarrelPoint.transform.position, soloBarrelPoint.transform.rotation);
-                    nextFireTime = fireRate + Time.time;
-                }
-            }
+            WeaponManager.Instance.TriggerWeaponFire();
         }
     }
 

@@ -19,8 +19,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] float displayInterval;
     private float time;
     public bool isMessageDone;
+    public bool isSelectingWeapon;
 
-
+    // SETUPS
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour
         InitializeValues();
         StartCoroutine(StartGameIntroMessageRoutine());
         UpdateWaveText(wave);
+
+        // TriggerWaveComplete(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
     }
 
     public void InitializeValues()
@@ -39,9 +42,43 @@ public class GameManager : MonoBehaviour
         score = 0;
         wave = 1;
         isMessageDone = false;
+        isSelectingWeapon = false;
         textMessage.text = "";
     }
 
+
+    // GAME CONTROLS
+    void HandleWeaponSelection()
+    {
+        isSelectingWeapon = true;
+        textMessage.text = "Choose a Weapon:";
+        WeaponSpawner.Instance.TriggerWeaponChooser();
+    }
+
+    public void TriggerWeaponSelectionComplete()
+    {
+        if (isSelectingWeapon == false)
+        {
+            textMessage.text = "";
+            StartCoroutine(IntermissionBeforeStartinWave());
+        }
+    }
+
+    public void TriggerWaveComplete()
+    {
+        HandleWeaponSelection();
+        wave++;
+        score += 1000;
+    }
+
+    public void StartWave()
+    {
+        UpdateWaveText(wave);
+        ShowTextMessage($"Wave {wave}", displayInterval);
+    }
+
+
+    // HUD CONTROLS
     public void AddScore(int amount = 1)
     {
         if (amount <= 0) amount = 1;
@@ -66,6 +103,44 @@ public class GameManager : MonoBehaviour
         if (textPlayerHealth != null) textPlayerHealth.text = iconifiedPlayerHealth;
     }
 
+
+    // MESSAGE CONTROLS
+    public void ShowTextMessage(string message, float duration = 2f, float delay = 0f)
+    {
+        StartCoroutine(DisplayMessageRoutine(message, duration, delay));
+    }
+
+    private IEnumerator DisplayMessageRoutine(string message, float duration, float delay)
+    {
+        isMessageDone = false;
+        if (delay > 0) yield return new WaitForSeconds(delay);
+
+        if (textMessage != null) textMessage.text = message;
+        yield return new WaitForSeconds(duration);
+        if (textMessage != null) textMessage.text = "";
+        isMessageDone = true;
+    }
+
+
+    // GAME STATES
+    public void DeclareGameOver()
+    {
+        StartCoroutine(GameOverRoutine());
+    }
+
+    private IEnumerator GameOverRoutine()
+    {
+        yield return new WaitForSeconds(0.3f);
+        SceneManager.LoadScene("GameOverScene");
+    }
+
+    public void DeclareGameComplete()
+    {
+        SceneManager.LoadScene("LevelCompleteScene");
+    }
+
+
+    // COROUTINES
     private IEnumerator StartGameIntroMessageRoutine()
     {
         isMessageDone = false;
@@ -86,35 +161,9 @@ public class GameManager : MonoBehaviour
         isMessageDone = true;
     }
 
-    public void ShowTextMessage(string message, float duration = 2f, float delay = 0f)
+    private IEnumerator IntermissionBeforeStartinWave()
     {
-        StartCoroutine(DisplayMessageRoutine(message, duration, delay));
-    }
-
-    private IEnumerator DisplayMessageRoutine(string message, float duration, float delay)
-    {
-        isMessageDone = false;
-        if (delay > 0) yield return new WaitForSeconds(delay);
-
-        if (textMessage != null) textMessage.text = message;
-        yield return new WaitForSeconds(duration);
-        if (textMessage != null) textMessage.text = "";
-        isMessageDone = true;
-    }
-
-    public void DeclareGameOver()
-    {
-        StartCoroutine(GameOverRoutine());
-    }
-
-    private IEnumerator GameOverRoutine()
-    {
-        yield return new WaitForSeconds(0.3f);
-        SceneManager.LoadScene("GameOverScene");
-    }
-
-    public void DeclareGameComplete()
-    {
-        SceneManager.LoadScene("LevelCompleteScene");
+        yield return new WaitForSeconds(1.75f);
+        StartWave();
     }
 }

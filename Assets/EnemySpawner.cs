@@ -5,10 +5,12 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnInterval;
     [SerializeField] private GameObject[] enemies;
     private float time;
+    private int spawnCount, spawnLimit;
 
     void Start()
     {
         if (spawnInterval == 0) spawnInterval = 1f;
+        if (spawnLimit == 0) spawnLimit = 5;
         time = 0;
     }
 
@@ -16,15 +18,22 @@ public class EnemySpawner : MonoBehaviour
     {
         if (GameManager.Instance.isMessageDone == false) return;
 
-        if (time < spawnInterval)
-        {
-            time += Time.deltaTime;
-        }
+        if (time < spawnInterval) time += Time.deltaTime;
         else
         {
-            transform.position = new Vector2(Random.Range(-9f, 9f), transform.position.y);
             time = 0;
-            Instantiate(enemies[0], transform.position, transform.rotation);
+            RandomizeSpawnPoint();
+            Spawn(enemies[0]);
         }
+    }
+
+    void RandomizeSpawnPoint()
+    {
+        transform.position = new Vector2(Random.Range(-9f, 9f), transform.position.y);
+    }
+
+    void Spawn(GameObject enemy)
+    {
+        Instantiate(enemy, transform.position, transform.rotation);
     }
 }
