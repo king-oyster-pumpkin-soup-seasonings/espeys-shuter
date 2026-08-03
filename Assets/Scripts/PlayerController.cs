@@ -23,6 +23,13 @@ public class PlayerController : MonoBehaviour
         if (fireRate == 0) fireRate = 1;
         if (playerRigidBody == null) playerRigidBody = GetComponent<Rigidbody2D>();
         if (movementSpeed == 0) movementSpeed = 3;
+
+        GoToSpawnPoint();
+    }
+
+    void GoToSpawnPoint()
+    {
+        transform.position = new Vector2(0, -3.5f);
     }
 
     void Update()
