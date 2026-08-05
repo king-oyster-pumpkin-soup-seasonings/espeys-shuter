@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
     void RandomizeSpawnPoint()
     {
         transform.position = new Vector2(Random.Range(-9f, 9f), transform.position.y);
+        if (GameManager.Instance.wave > 0) spawnInterval = Random.Range(0.5f, 3f);
     }
 
     void Spawn(GameObject enemy)

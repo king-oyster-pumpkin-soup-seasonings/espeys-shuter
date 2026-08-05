@@ -36,11 +36,6 @@ public class PlayerController : MonoBehaviour
 
         movementKey = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Move();
-
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.J))
-        {
-            WeaponManager.Instance.TriggerWeaponFire();
-        }
     }
 
     void Move()

@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private int score, wave;
+    [SerializeField] private int score;
+    public int wave;
 
     [Header("UI References")] [SerializeField]
     private TextMeshProUGUI textPlayerHealth;
@@ -31,10 +32,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InitializeValues();
-        StartCoroutine(StartGameIntroMessageRoutine());
+        // StartCoroutine(StartGameIntroMessageRoutine());
         UpdateWaveText(wave);
 
-        // TriggerWaveComplete(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
+        TriggerWaveComplete(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
     }
 
     public void InitializeValues()

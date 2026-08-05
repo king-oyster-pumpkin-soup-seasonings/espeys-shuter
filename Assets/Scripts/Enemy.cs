@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
         isExploding = false;
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         if (enemyRB == null) enemyRB = GetComponent<Rigidbody2D>();
-        if (movementSpeed == 0) movementSpeed = 3;
+        if (movementSpeed == 0) movementSpeed = 1.5f;
 
         player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) playerTransform = player.transform;

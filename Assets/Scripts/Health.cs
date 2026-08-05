@@ -35,9 +35,10 @@ public class Health : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (gameObject.CompareTag("Enemy") && other.gameObject.CompareTag("PlayerBullet") ||
-            gameObject.CompareTag("Enemy") && other.gameObject.CompareTag("Player") ||
+            gameObject.CompareTag("Asteroid") && other.gameObject.CompareTag("PlayerBullet") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("EnemyBullet") ||
-            gameObject.CompareTag("Player") && other.gameObject.CompareTag("Enemy"))
+            gameObject.CompareTag("Player") && other.gameObject.CompareTag("Enemy") ||
+            gameObject.CompareTag("Player") && other.gameObject.CompareTag("Asteroid"))
         {
             TakeDamage();
 
@@ -47,31 +48,35 @@ public class Health : MonoBehaviour
             }
         }
 
-        if (gameObject.CompareTag("Player"))
+        if (gameObject.CompareTag("Enemy") && other.gameObject.CompareTag("Player") ||
+            gameObject.CompareTag("Asteroid") && other.gameObject.CompareTag("Player"))
         {
-            if (other.gameObject.CompareTag("PowerUpHealth"))
-            {
-                if (currentHealth < maxHealth)
-                {
-                    currentHealth++;
-                    OnHealthChanged.Invoke(currentHealth);
-                    Destroy(other.gameObject);
-                }
-            }
+            currentHealth = 0;
+            TakeDamage();
+        }
 
-            if (other.gameObject.CompareTag("PowerUpMaxHealth"))
+        if (gameObject.CompareTag("Player") && other.gameObject.CompareTag("PowerUpHealth"))
+        {
+            if (currentHealth < maxHealth)
             {
-                maxHealth++;
                 currentHealth++;
                 OnHealthChanged.Invoke(currentHealth);
                 Destroy(other.gameObject);
             }
+        }
 
-            if (other.CompareTag("PowerUpShield"))
-            {
-                Destroy(other.gameObject);
-                if (shieldSR != null) StartCoroutine(GainShieldCoroutine());
-            }
+        if (gameObject.CompareTag("Player") && other.gameObject.CompareTag("PowerUpMaxHealth"))
+        {
+            maxHealth++;
+            currentHealth++;
+            OnHealthChanged.Invoke(currentHealth);
+            Destroy(other.gameObject);
+        }
+
+        if (gameObject.CompareTag("Player") && other.CompareTag("PowerUpShield"))
+        {
+            Destroy(other.gameObject);
+            if (shieldSR != null) StartCoroutine(GainShieldCoroutine());
         }
     }
 
