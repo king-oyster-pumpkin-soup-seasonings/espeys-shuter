@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +9,12 @@ public class WeaponManager : MonoBehaviour
     // Game Objects
     public List<GameObject> weaponSet;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject laser;
 
     // Projectile Spawning Related
-    [SerializeField] private Transform soloBarrelPoint, leftBarrelPoint, rightBarrelPoint;
+    [SerializeField] private Transform soloBarrelPoint, leftBarrelPoint, rightBarrelPoint, laserPoint;
     [SerializeField] private float fireRate;
-    private float nextFireTime, nextFireTimePassive;
+    private float nextFireTime, nextFireTimePassive, laserTime, laserCooldown;
 
     // Weapon Management
     public int currentWeaponUse;
@@ -30,12 +32,24 @@ public class WeaponManager : MonoBehaviour
     void Start()
     {
         // weaponSet.Clear();
-        if (fireRate == 0) fireRate = 1;
+        if (fireRate == 0) fireRate = 1f;
+        if (laserCooldown == 0) laserCooldown = 3f;
+        laserTime = 0;
         currentWeaponUse = 1;
     }
 
     void Update()
     {
+        if (laserTime < laserCooldown)
+        {
+            laserTime += Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.L) && IfWeaponExists("WeaponLaser"))
+        {
+            Instantiate(laser, laserPoint.position, laserPoint.rotation);
+            laserTime = 0;
+        }
+
         if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.J))
         {
             TriggerWeaponFire();
@@ -46,18 +60,25 @@ public class WeaponManager : MonoBehaviour
         {
             if (bullet != null && soloBarrelPoint != null)
             {
-                foreach (GameObject weapon in weaponSet)
+                if (IfWeaponExists("WeaponDoubleBullet"))
                 {
-                    if (weapon.CompareTag("WeaponDoubleBullet"))
-                    {
-                        Instantiate(bullet, leftBarrelPoint.transform.position, leftBarrelPoint.transform.rotation);
-                        Instantiate(bullet, rightBarrelPoint.transform.position, rightBarrelPoint.transform.rotation);
-                    }
+                    Instantiate(bullet, leftBarrelPoint.transform.position, leftBarrelPoint.transform.rotation);
+                    Instantiate(bullet, rightBarrelPoint.transform.position, rightBarrelPoint.transform.rotation);
                 }
 
                 nextFireTimePassive = (fireRate + 1) + Time.time;
             }
         }
+    }
+
+    bool IfWeaponExists(string weaponTag)
+    {
+        foreach (GameObject weapon in weaponSet)
+        {
+            if (weapon.CompareTag(weaponTag)) return true;
+        }
+
+        return false;
     }
 
     public void TriggerWeaponFire()

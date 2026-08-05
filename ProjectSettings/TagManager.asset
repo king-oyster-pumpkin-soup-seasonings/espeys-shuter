@@ -20,6 +20,10 @@ TagManager:
   - PowerUpShield
   - PowerUpBulletSpeed
   - PowerUpMovementSpeed
+  - PowerUpHealth
+  - PowerUpMaxHealth
+  - Asteroid
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX

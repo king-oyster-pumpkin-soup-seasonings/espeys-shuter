@@ -108,6 +108,7 @@ MonoBehaviour:
   player: {fileID: 0}
   spriteRenderer: {fileID: 8532140252578710704}
   explosionSprite: {fileID: -6474883903819434044, guid: 18289f989de726f5db80f1d2865b19b4, type: 3}
+  scoreValue: 10
 --- !u!50 &9165277407789244908
 Rigidbody2D:
   serializedVersion: 5
@@ -167,18 +168,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3196626039496206473}
-        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
-        m_MethodName: Explode
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  shield: {fileID: 0}
+  onShield: 0
 --- !u!61 &1564439799825284462
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -23,13 +23,6 @@ public class Weapon : MonoBehaviour
                 if (!weapon.CompareTag(gameObject.tag))
                 {
                     Destroy(gameObject);
-                }
-                else
-                {
-                    transform.localScale = new Vector2(2.5f, 2.5f);
-                    transform.position = new Vector2(-8.35f, -3.75f);
-                    boxCollider.enabled = false;
-                    spriteRenderer.sortingOrder = 3;
                     return;
                 }
             }
@@ -77,5 +70,9 @@ public class Weapon : MonoBehaviour
         WeaponManager.Instance.weaponSet.Add(gameObject);
         GameManager.Instance.isSelectingWeapon = false;
         GameManager.Instance.TriggerWeaponSelectionComplete();
+        transform.localScale = new Vector2(2.5f, 2.5f);
+        transform.position = new Vector2(-8.35f, -3.75f);
+        boxCollider.enabled = false;
+        spriteRenderer.sortingOrder = 3;
     }
 }
