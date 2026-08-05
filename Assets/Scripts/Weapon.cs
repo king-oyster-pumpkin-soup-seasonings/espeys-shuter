@@ -5,6 +5,7 @@ public class Weapon : MonoBehaviour
 {
     private bool weaponIsBeingSelected;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private BoxCollider2D boxCollider;
     private Coroutine selectCoroutine;
 
     void Start()
@@ -15,7 +16,24 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.isSelectingWeapon == false) Destroy(gameObject);
+        if (GameManager.Instance.isSelectingWeapon == false)
+        {
+            foreach (GameObject weapon in WeaponManager.Instance.weaponSet)
+            {
+                if (!weapon.CompareTag(gameObject.tag))
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    transform.localScale = new Vector2(2.5f, 2.5f);
+                    transform.position = new Vector2(-8.35f, -3.75f);
+                    boxCollider.enabled = false;
+                    spriteRenderer.sortingOrder = 3;
+                    return;
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -28,6 +46,8 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (!other.CompareTag("Player")) return;
+
         if (selectCoroutine != null)
         {
             StopCoroutine(selectCoroutine);

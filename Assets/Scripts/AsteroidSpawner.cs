@@ -31,7 +31,7 @@ public class AsteroidSpawner : MonoBehaviour
     void RandomizeSpawnPoint()
     {
         transform.position = new Vector2(Random.Range(-9f, 9f), transform.position.y);
-        if (GameManager.Instance.wave > 0) spawnInterval = Random.Range(2f, 5f);
+        if (GameManager.Instance.wave > 0) spawnInterval = Random.Range(0, 5f);
     }
 
     void Spawn(GameObject preAsteroid)
