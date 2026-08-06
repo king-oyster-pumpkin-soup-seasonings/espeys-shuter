@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
         isExploding = false;
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         if (playerRigidBody == null) playerRigidBody = GetComponent<Rigidbody2D>();
-        if (movementSpeed == 0) movementSpeed = 15;
+        if (movementSpeed == 0) movementSpeed = 11;
         if (playerRigidBody != null) playerRigidBody.linearDamping = 1.25f;
 
         GoToSpawnPoint();

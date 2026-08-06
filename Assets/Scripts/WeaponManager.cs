@@ -22,6 +22,11 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] private int bombMaxAmmo, bombAmmo;
     private float timeForBombReloading;
 
+    // Missle Mangament
+    public static Action<int> MissileAddAmmo;
+    [SerializeField] private int missileMaxAmmo, missileAmmo;
+    private float timeForMissileReloading;
+
     // Projectile Spawning Related
     [SerializeField] private Transform soloBarrelPoint, leftBarrelPoint, rightBarrelPoint, laserPoint, bombPoint;
     [SerializeField] private float fireRate;
@@ -46,7 +51,9 @@ public class WeaponManager : MonoBehaviour
         if (fireRate == 0) fireRate = 0.8f;
         if (laserCooldownSet == 0) laserCooldownSet = 12f;
         if (bombMaxAmmo == 0) bombMaxAmmo = 5;
+        if (missileMaxAmmo == 0) missileMaxAmmo = 5;
         bombAmmo = bombMaxAmmo - 1;
+        missileAmmo = missileMaxAmmo - 1;
         laserCountdown = 0;
         currentWeaponUse = 1;
     }
@@ -77,12 +84,25 @@ public class WeaponManager : MonoBehaviour
             BombAddAmmo?.Invoke(bombAmmo);
         }
 
+        if (timeForMissileReloading < 5)
+        {
+            timeForMissileReloading += Time.deltaTime;
+        }
+        else
+        {
+            if (missileAmmo < missileMaxAmmo) missileAmmo++;
+            timeForMissileReloading = 0;
+            MissileAddAmmo?.Invoke(missileAmmo);
+        }
+
         // KEYS --------
 
         // missile key
-        if (Input.GetKeyDown(KeyCode.M) && IfWeaponExists("WeaponMissile"))
+        if (Input.GetKeyDown(KeyCode.M) && IfWeaponExists("WeaponMissile") && missileAmmo > 0)
         {
             Instantiate(missile, bombPoint.position, bombPoint.rotation);
+            missileAmmo--;
+            MissileAddAmmo?.Invoke(missileAmmo);
         }
 
         // bomb key

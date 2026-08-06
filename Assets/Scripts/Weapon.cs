@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour
     private bool weaponIsBeingSelected;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private BoxCollider2D boxCollider;
-    [SerializeField] private TextMeshPro keyAndCooldownText, keyAndAmmoLoaderBombText;
+    [SerializeField] private TextMeshPro keyAndCooldownText, keyAndAmmoLoaderBombText, keyAndAmmoLoadForMissileText;
     private Coroutine selectCoroutine;
     private Vector2 proceduralWeaponSlotPosition;
 
@@ -16,12 +16,23 @@ public class Weapon : MonoBehaviour
     {
         if (gameObject.CompareTag("WeaponLaser")) WeaponManager.WeaponOnCooldown += UpdateKeyAndCooldownTimerLabel;
         else if (gameObject.CompareTag("WeaponBomb")) WeaponManager.BombAddAmmo += UpdateKeyAndAmmoLoaderBombText;
+        else if (gameObject.CompareTag("WeaponMissile"))
+            WeaponManager.MissileAddAmmo += UpdateKeyAndAmmoLoadForMissileText;
     }
 
     private void OnDisable()
     {
         if (gameObject.CompareTag("WeaponLaser")) WeaponManager.WeaponOnCooldown -= UpdateKeyAndCooldownTimerLabel;
         else if (gameObject.CompareTag("WeaponBomb")) WeaponManager.BombAddAmmo -= UpdateKeyAndAmmoLoaderBombText;
+        else if (gameObject.CompareTag("WeaponMissile"))
+            WeaponManager.MissileAddAmmo -= UpdateKeyAndAmmoLoadForMissileText;
+    }
+
+    void UpdateKeyAndAmmoLoadForMissileText(int missileAmmo = 0)
+    {
+        if (keyAndAmmoLoadForMissileText == null || boxCollider.enabled) return;
+
+        keyAndAmmoLoadForMissileText.text = $": M ({missileAmmo})";
     }
 
     void UpdateKeyAndAmmoLoaderBombText(int bombAmmo = 0)
@@ -52,6 +63,7 @@ public class Weapon : MonoBehaviour
         weaponIsBeingSelected = false;
         if (keyAndCooldownText != null) keyAndCooldownText.text = "";
         if (keyAndAmmoLoaderBombText != null) keyAndAmmoLoaderBombText.text = "";
+        if (keyAndAmmoLoadForMissileText != null) keyAndAmmoLoadForMissileText.text = "";
     }
 
     void Update()
@@ -122,5 +134,6 @@ public class Weapon : MonoBehaviour
         spriteRenderer.sortingOrder = 3;
         UpdateKeyAndCooldownTimerLabel(0);
         UpdateKeyAndAmmoLoaderBombText();
+        UpdateKeyAndAmmoLoadForMissileText();
     }
 }
