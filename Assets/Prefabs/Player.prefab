@@ -306,8 +306,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   playerRigidBody: {fileID: 7988134392061579897}
-  spriteRenderer: {fileID: 0}
-  explosionSprite: {fileID: 0}
+  spriteRenderer: {fileID: 1263156189394125597}
+  explosionSprite: {fileID: -6474883903819434044, guid: 18289f989de726f5db80f1d2865b19b4, type: 3}
 --- !u!50 &7988134392061579897
 Rigidbody2D:
   serializedVersion: 5
@@ -396,6 +396,21 @@ MonoBehaviour:
   weaponSet: []
   bullet: {fileID: 5346231957310930420, guid: 82f75ee4e48f9ec9b8e5464cebe76f9a, type: 3}
   laser: {fileID: 850161067815013966, guid: 5a5753a1c8526d3b4a7d0a92769a882a, type: 3}
+  WeaponCooldownTime:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8001789580437616010, guid: 3c0bc445a40325e6e9aa4e75cddaf1c2, type: 3}
+        m_TargetAssemblyTypeName: Weapon, Assembly-CSharp
+        m_MethodName: UpdateKeyAndCooldownTimerLabel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   soloBarrelPoint: {fileID: 6111253658067352127}
   leftBarrelPoint: {fileID: 7973819757871023610}
   rightBarrelPoint: {fileID: 1111932478632345520}

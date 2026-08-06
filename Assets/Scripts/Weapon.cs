@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -6,10 +8,38 @@ public class Weapon : MonoBehaviour
     private bool weaponIsBeingSelected;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private BoxCollider2D boxCollider;
+    [SerializeField] private TextMeshPro keyAndCooldownText;
     private Coroutine selectCoroutine;
+    private Vector2 proceduralWeaponSlotPosition;
+
+    private void OnEnable()
+    {
+        WeaponManager.WeaponOnCooldown += UpdateKeyAndCooldownTimerLabel;
+    }
+
+    private void OnDisable()
+    {
+        WeaponManager.WeaponOnCooldown -= UpdateKeyAndCooldownTimerLabel;
+    }
+
+    public void UpdateKeyAndCooldownTimerLabel(float cooldownTime)
+    {
+        Debug.Log("TRIGGERS: UpdateKeyAndCooldownTimerLabel"); // debug
+        if (keyAndCooldownText == null) return;
+
+        if (cooldownTime > 0)
+        {
+            keyAndCooldownText.text = ": " + Math.Ceiling(cooldownTime);
+        }
+        else
+        {
+            keyAndCooldownText.text = ": L"; // Shows "L" when cooldown hits 0
+        }
+    }
 
     void Start()
     {
+        proceduralWeaponSlotPosition = new Vector2(-8.35f, -3.75f);
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         weaponIsBeingSelected = false;
     }
@@ -18,13 +48,9 @@ public class Weapon : MonoBehaviour
     {
         if (GameManager.Instance.isSelectingWeapon == false)
         {
-            foreach (GameObject weapon in WeaponManager.Instance.weaponSet)
+            if (!WeaponManager.Instance.weaponSet.Contains(gameObject))
             {
-                if (!weapon.CompareTag(gameObject.tag))
-                {
-                    Destroy(gameObject);
-                    return;
-                }
+                Destroy(gameObject);
             }
         }
     }
@@ -70,8 +96,18 @@ public class Weapon : MonoBehaviour
         WeaponManager.Instance.weaponSet.Add(gameObject);
         GameManager.Instance.isSelectingWeapon = false;
         GameManager.Instance.TriggerWeaponSelectionComplete();
+        for (int i = 0; i < WeaponManager.Instance.weaponSet.Count; i++)
+        {
+            transform.position = proceduralWeaponSlotPosition;
+            proceduralWeaponSlotPosition = new Vector2
+            (
+                proceduralWeaponSlotPosition.x,
+                proceduralWeaponSlotPosition.y + 2f
+            );
+        }
+
         transform.localScale = new Vector2(2.5f, 2.5f);
-        transform.position = new Vector2(-8.35f, -3.75f);
+
         boxCollider.enabled = false;
         spriteRenderer.sortingOrder = 3;
     }

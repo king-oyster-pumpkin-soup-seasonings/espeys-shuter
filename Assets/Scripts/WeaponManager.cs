@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +11,15 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] private GameObject bullet;
     [SerializeField] private GameObject laser;
 
+    // Invokes / Actions
+    // [SerializeField] private UnityEvent<float> WeaponCooldownTime;
+    public static Action<float> WeaponOnCooldown;
+
+
     // Projectile Spawning Related
     [SerializeField] private Transform soloBarrelPoint, leftBarrelPoint, rightBarrelPoint, laserPoint;
     [SerializeField] private float fireRate;
-    private float nextFireTime, nextFireTimePassive, laserTime, laserCooldown;
+    private float nextFireTime, nextFireTimePassive, laserCountdown, laserCooldownSet;
 
     // Weapon Management
     public int currentWeaponUse;
@@ -33,21 +38,29 @@ public class WeaponManager : MonoBehaviour
     {
         // weaponSet.Clear();
         if (fireRate == 0) fireRate = 1f;
-        if (laserCooldown == 0) laserCooldown = 3f;
-        laserTime = 0;
+        if (laserCooldownSet == 0) laserCooldownSet = 10f;
+        laserCountdown = laserCooldownSet;
         currentWeaponUse = 1;
     }
 
     void Update()
     {
-        if (laserTime < laserCooldown)
+        if (laserCountdown > 0)
         {
-            laserTime += Time.deltaTime;
+            laserCountdown -= Time.deltaTime;
+            WeaponOnCooldown?.Invoke(laserCountdown);
+            Debug.Log($"LASERTIME: {laserCountdown}");
         }
-        else if (Input.GetKey(KeyCode.L) && IfWeaponExists("WeaponLaser"))
+        else if (laserCountdown != 0)
+        {
+            laserCountdown = 0;
+            WeaponOnCooldown?.Invoke(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L) && IfWeaponExists("WeaponLaser") && laserCountdown <= 0)
         {
             Instantiate(laser, laserPoint.position, laserPoint.rotation);
-            laserTime = 0;
+            laserCountdown = laserCooldownSet;
         }
 
         if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.J))
