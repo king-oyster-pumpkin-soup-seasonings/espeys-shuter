@@ -8,18 +8,27 @@ public class Weapon : MonoBehaviour
     private bool weaponIsBeingSelected;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private BoxCollider2D boxCollider;
-    [SerializeField] private TextMeshPro keyAndCooldownText;
+    [SerializeField] private TextMeshPro keyAndCooldownText, keyAndAmmoLoaderBombText;
     private Coroutine selectCoroutine;
     private Vector2 proceduralWeaponSlotPosition;
 
     private void OnEnable()
     {
         if (gameObject.CompareTag("WeaponLaser")) WeaponManager.WeaponOnCooldown += UpdateKeyAndCooldownTimerLabel;
+        else if (gameObject.CompareTag("WeaponBomb")) WeaponManager.BombAddAmmo += UpdateKeyAndAmmoLoaderBombText;
     }
 
     private void OnDisable()
     {
         if (gameObject.CompareTag("WeaponLaser")) WeaponManager.WeaponOnCooldown -= UpdateKeyAndCooldownTimerLabel;
+        else if (gameObject.CompareTag("WeaponBomb")) WeaponManager.BombAddAmmo -= UpdateKeyAndAmmoLoaderBombText;
+    }
+
+    void UpdateKeyAndAmmoLoaderBombText(int bombAmmo = 0)
+    {
+        if (keyAndAmmoLoaderBombText == null || boxCollider.enabled) return;
+
+        keyAndAmmoLoaderBombText.text = ": K (" + bombAmmo + ")";
     }
 
     public void UpdateKeyAndCooldownTimerLabel(float cooldownTime)
@@ -32,7 +41,7 @@ public class Weapon : MonoBehaviour
         }
         else
         {
-            keyAndCooldownText.text = ": L"; // Shows "L" when cooldown hits 0
+            keyAndCooldownText.text = ": L";
         }
     }
 
@@ -42,6 +51,7 @@ public class Weapon : MonoBehaviour
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         weaponIsBeingSelected = false;
         if (keyAndCooldownText != null) keyAndCooldownText.text = "";
+        if (keyAndAmmoLoaderBombText != null) keyAndAmmoLoaderBombText.text = "";
     }
 
     void Update()
@@ -111,5 +121,6 @@ public class Weapon : MonoBehaviour
         boxCollider.enabled = false;
         spriteRenderer.sortingOrder = 3;
         UpdateKeyAndCooldownTimerLabel(0);
+        UpdateKeyAndAmmoLoaderBombText();
     }
 }

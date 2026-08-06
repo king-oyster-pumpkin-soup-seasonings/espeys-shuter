@@ -25,6 +25,8 @@ TagManager:
   - Asteroid
   - EnemyBullet
   - LaserPoint
+  - Bomb
+  - BombExplosion
   layers:
   - Default
   - TransparentFX

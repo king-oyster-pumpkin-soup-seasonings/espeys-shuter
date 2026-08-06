@@ -16,6 +16,10 @@ public class WeaponManager : MonoBehaviour
     // [SerializeField] private UnityEvent<float> WeaponCooldownTime;
     public static Action<float> WeaponOnCooldown;
 
+    // Bomb Management
+    public static Action<int> BombAddAmmo;
+    [SerializeField] private int bombMaxAmmo, bombAmmo;
+    private float timeForBombReloading;
 
     // Projectile Spawning Related
     [SerializeField] private Transform soloBarrelPoint, leftBarrelPoint, rightBarrelPoint, laserPoint, bombPoint;
@@ -40,12 +44,15 @@ public class WeaponManager : MonoBehaviour
         // weaponSet.Clear();
         if (fireRate == 0) fireRate = 0.8f;
         if (laserCooldownSet == 0) laserCooldownSet = 12f;
+        if (bombMaxAmmo == 0) bombMaxAmmo = 5;
+        bombAmmo = bombMaxAmmo - 1;
         laserCountdown = 0;
         currentWeaponUse = 1;
     }
 
     void Update()
     {
+        // TIMERS --------
         if (laserCountdown > 0)
         {
             laserCountdown -= Time.deltaTime;
@@ -58,10 +65,25 @@ public class WeaponManager : MonoBehaviour
             WeaponOnCooldown?.Invoke(0);
         }
 
+        if (timeForBombReloading < 2)
+        {
+            timeForBombReloading += Time.deltaTime;
+        }
+        else
+        {
+            if (bombAmmo < bombMaxAmmo) bombAmmo++;
+            timeForBombReloading = 0;
+            BombAddAmmo?.Invoke(bombAmmo);
+        }
+
+        // KEYS --------
+
         // bomb key
-        if (Input.GetKeyDown(KeyCode.K) && IfWeaponExists("WeaponBomb"))
+        if (Input.GetKeyDown(KeyCode.K) && IfWeaponExists("WeaponBomb") && bombAmmo > 0)
         {
             Instantiate(bomb, bombPoint.position, bombPoint.rotation);
+            bombAmmo--;
+            BombAddAmmo?.Invoke(bombAmmo);
         }
 
         // laser key
