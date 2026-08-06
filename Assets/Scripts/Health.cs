@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,9 +16,25 @@ public class Health : MonoBehaviour
     [SerializeField] GameObject shield;
     private SpriteRenderer shieldSR;
     public bool onShield;
+    private float shieldDurationSet, shieldDurationCount;
 
     // lasers
     private bool isInflictingLaserDamage;
+
+    void Update()
+    {
+        if (gameObject.CompareTag("Player") && onShield && shieldDurationCount > 0)
+        {
+            shieldDurationCount -= Time.deltaTime;
+            GameManager.Instance.UpdateShieldHUD(shieldDurationCount);
+        }
+        else if (gameObject.CompareTag("Player") && onShield)
+        {
+            GameManager.Instance.UpdateShieldHUD(0);
+            LoseShield();
+        }
+    }
+
 
     // --- methods ---
     void Start()
@@ -30,6 +47,8 @@ public class Health : MonoBehaviour
         if (shield == null) GameObject.FindGameObjectWithTag("Shield");
         if (shield != null && shieldSR == null) shieldSR = shield.GetComponent<SpriteRenderer>();
         if (shieldSR != null) shieldSR.enabled = false;
+        if (shieldDurationSet == 0) shieldDurationSet = 5f;
+        shieldDurationCount = shieldDurationSet;
         onShield = false;
 
         // ui
@@ -97,7 +116,8 @@ public class Health : MonoBehaviour
         if (gameObject.CompareTag("Player") && other.CompareTag("PowerUpShield"))
         {
             Destroy(other.gameObject);
-            if (shieldSR != null) StartCoroutine(GainShieldCoroutine());
+            // if (shieldSR != null) StartCoroutine(GainShieldCoroutine());
+            if (shieldSR != null) GainShield();
         }
     }
 
@@ -115,6 +135,19 @@ public class Health : MonoBehaviour
         {
             OnDied.Invoke();
         }
+    }
+
+    private void GainShield()
+    {
+        onShield = true;
+        shieldSR.enabled = true;
+        shieldDurationCount = shieldDurationSet;
+    }
+
+    private void LoseShield()
+    {
+        shieldSR.enabled = false;
+        onShield = false;
     }
 
     private IEnumerator GainShieldCoroutine()

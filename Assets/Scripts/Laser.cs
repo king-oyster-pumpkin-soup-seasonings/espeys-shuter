@@ -19,7 +19,7 @@ public class Laser : MonoBehaviour
     private IEnumerator LaserOnFire()
     {
         transform.localScale = new Vector2(0.05f, transform.localScale.y);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
 
         for (int i = 0; i < 20; i++)
         {

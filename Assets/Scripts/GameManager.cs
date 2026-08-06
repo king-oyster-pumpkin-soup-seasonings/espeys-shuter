@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public bool isMessageDone;
     public bool isSelectingWeapon;
 
+    [SerializeField] private SpriteRenderer shieldHUDSpriteRenderer;
+    [SerializeField] TextMeshProUGUI textShieldDuration;
+
     // SETUPS
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class GameManager : MonoBehaviour
     {
         InitializeValues();
         // StartCoroutine(StartGameIntroMessageRoutine());
+        UpdateShieldHUD(0);
         UpdateWaveText(wave);
 
         TriggerWaveComplete(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
@@ -111,6 +115,22 @@ public class GameManager : MonoBehaviour
         }
 
         if (textPlayerHealth != null) textPlayerHealth.text = iconifiedPlayerHealth;
+    }
+
+    public void UpdateShieldHUD(float shieldDuration)
+    {
+        Debug.Log("TRIGGERING UPDATE SHIELD HUD");
+        // shieldHUDSpriteRenderer.enabled = true; // debug
+        if (shieldDuration <= 0)
+        {
+            shieldHUDSpriteRenderer.enabled = false;
+            textShieldDuration.text = "";
+        }
+        else
+        {
+            shieldHUDSpriteRenderer.enabled = true;
+            textShieldDuration.text = Mathf.CeilToInt(shieldDuration).ToString();
+        }
     }
 
 

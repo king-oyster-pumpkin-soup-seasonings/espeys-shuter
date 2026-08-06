@@ -14,12 +14,12 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-        WeaponManager.WeaponOnCooldown += UpdateKeyAndCooldownTimerLabel;
+        if (gameObject.CompareTag("WeaponLaser")) WeaponManager.WeaponOnCooldown += UpdateKeyAndCooldownTimerLabel;
     }
 
     private void OnDisable()
     {
-        WeaponManager.WeaponOnCooldown -= UpdateKeyAndCooldownTimerLabel;
+        if (gameObject.CompareTag("WeaponLaser")) WeaponManager.WeaponOnCooldown -= UpdateKeyAndCooldownTimerLabel;
     }
 
     public void UpdateKeyAndCooldownTimerLabel(float cooldownTime)
