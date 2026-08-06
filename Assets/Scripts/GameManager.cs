@@ -119,7 +119,6 @@ public class GameManager : MonoBehaviour
 
     public void UpdateShieldHUD(float shieldDuration)
     {
-        Debug.Log("TRIGGERING UPDATE SHIELD HUD");
         // shieldHUDSpriteRenderer.enabled = true; // debug
         if (shieldDuration <= 0)
         {

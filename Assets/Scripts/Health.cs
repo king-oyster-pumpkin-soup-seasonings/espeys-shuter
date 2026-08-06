@@ -44,7 +44,7 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
         isInflictingLaserDamage = false;
 
-        if (shield == null) GameObject.FindGameObjectWithTag("Shield");
+        if (shield == null && gameObject.CompareTag("Player")) GameObject.FindGameObjectWithTag("Shield");
         if (shield != null && shieldSR == null) shieldSR = shield.GetComponent<SpriteRenderer>();
         if (shieldSR != null) shieldSR.enabled = false;
         if (shieldDurationSet == 0) shieldDurationSet = 5f;

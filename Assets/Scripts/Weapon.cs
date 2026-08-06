@@ -41,7 +41,7 @@ public class Weapon : MonoBehaviour
         proceduralWeaponSlotPosition = new Vector2(-8.35f, -3.75f);
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         weaponIsBeingSelected = false;
-        keyAndCooldownText.text = "";
+        if (keyAndCooldownText != null) keyAndCooldownText.text = "";
     }
 
     void Update()
