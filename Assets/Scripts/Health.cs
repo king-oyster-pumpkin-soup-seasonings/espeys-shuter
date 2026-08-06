@@ -88,12 +88,23 @@ public class Health : MonoBehaviour
             }
         }
 
+        // Object collides with missile
+        if ((gameObject.CompareTag("Enemy") ||
+             gameObject.CompareTag("Asteroid"))
+            && other.gameObject.CompareTag("Missile"))
+        {
+            TakeDamage();
+            TakeDamage();
+            TakeDamage();
+            Destroy(other.gameObject);
+        }
+
         // Object collides with BombExplosion
         if ((gameObject.CompareTag("Enemy") ||
              gameObject.CompareTag("Asteroid"))
             && other.gameObject.CompareTag("BombExplosion"))
         {
-            Debug.Log($"EXPLOSION HIT: {gameObject.name}");
+            // Debug.Log($"EXPLOSION HIT: {gameObject.name}");
             TakeDamage();
             TakeDamage();
             TakeDamage();

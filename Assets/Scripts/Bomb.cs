@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class bomb : MonoBehaviour
+public class Bomb : MonoBehaviour
 {
     [SerializeField] private float bombLifespan;
     [SerializeField] private Rigidbody2D bombRB;
@@ -24,7 +24,7 @@ public class bomb : MonoBehaviour
 
     void Start()
     {
-        if (bombCountdown == 0) bombCountdown = 5f;
+        if (bombCountdown == 0) bombCountdown = 3f;
         bombExplosionSR.enabled = false;
         bombRB = GetComponent<Rigidbody2D>();
         if (bombSpeed == 0) bombSpeed = 0.2f;
@@ -47,13 +47,14 @@ public class bomb : MonoBehaviour
 
     private IEnumerator TriggerExplosion()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(bombCountdown);
 
         bombRB.linearVelocity = Vector2.zero;
         bombRB.angularVelocity = 0;
         bombCollider.enabled = true;
         Vector2 explosionSize = new Vector2(0.2f, 0.2f);
         bombExplosionSR.enabled = true;
+        bombExplosionT = transform;
         bombExplosionT.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
         for (int i = 0; i < 10; i++)
         {

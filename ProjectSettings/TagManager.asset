@@ -27,6 +27,7 @@ TagManager:
   - LaserPoint
   - Bomb
   - BombExplosion
+  - Missile
   layers:
   - Default
   - TransparentFX

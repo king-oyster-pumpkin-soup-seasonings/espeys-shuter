@@ -11,6 +11,7 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] private GameObject bullet;
     [SerializeField] private GameObject laser;
     [SerializeField] private GameObject bomb;
+    [SerializeField] private GameObject missile;
 
     // Invokes / Actions
     // [SerializeField] private UnityEvent<float> WeaponCooldownTime;
@@ -65,7 +66,7 @@ public class WeaponManager : MonoBehaviour
             WeaponOnCooldown?.Invoke(0);
         }
 
-        if (timeForBombReloading < 2)
+        if (timeForBombReloading < 3)
         {
             timeForBombReloading += Time.deltaTime;
         }
@@ -77,6 +78,12 @@ public class WeaponManager : MonoBehaviour
         }
 
         // KEYS --------
+
+        // missile key
+        if (Input.GetKeyDown(KeyCode.M) && IfWeaponExists("WeaponMissile"))
+        {
+            Instantiate(missile, bombPoint.position, bombPoint.rotation);
+        }
 
         // bomb key
         if (Input.GetKeyDown(KeyCode.K) && IfWeaponExists("WeaponBomb") && bombAmmo > 0)
