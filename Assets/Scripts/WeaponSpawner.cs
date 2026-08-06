@@ -21,12 +21,13 @@ public class WeaponSpawner : MonoBehaviour
 
     void Start()
     {
+        unacquiredWeapons.Clear();
         isDone = false;
     }
 
     public void TriggerWeaponChooser()
     {
-        Debug.Log("TriggerWeaponChooser called");
+        // Debug.Log("TriggerWeaponChooser called");
         isDone = false;
         AvailWeapons();
         DisplayWeaponChooser();
@@ -39,23 +40,24 @@ public class WeaponSpawner : MonoBehaviour
         Debug.Log($"AVAIL WEAPONS TRIGGERED\n"); // debug
 
         unacquiredWeapons.Clear();
-        bool ownsWeapon;
+        bool isWeaponAlreadyOwned;
         for (int i = 0; i < weapons.Length; i++)
         {
-            ownsWeapon = false;
-            for (int j = 0; j < WeaponManager.Instance.weaponSet.Count; j++)
+            isWeaponAlreadyOwned = false;
+            foreach (GameObject weapon in WeaponManager.Instance.weaponSet)
             {
-                if (WeaponManager.Instance.weaponSet[j] == weapons[i])
+                if (weapon.tag == weapons[i].tag)
                 {
-                    ownsWeapon = true;
+                    isWeaponAlreadyOwned = true;
                     break;
                 }
             }
 
-            if (!ownsWeapon) unacquiredWeapons.Add(weapons[i]);
+            if (!isWeaponAlreadyOwned) unacquiredWeapons.Add(weapons[i]);
         }
 
         if (unacquiredWeapons.Count <= 1) return;
+
         int randomIndex1 = Random.Range(0, unacquiredWeapons.Count);
         int randomIndex2;
 
@@ -68,9 +70,20 @@ public class WeaponSpawner : MonoBehaviour
 
     void DisplayWeaponChooser()
     {
-        Instantiate(availableWeaponsToChoose[0], new Vector2(1.5f, 2f), Quaternion.identity);
-        Instantiate(availableWeaponsToChoose[1], new Vector2(-1.5f, 2f), Quaternion.identity);
+        if (unacquiredWeapons.Count > 1)
+        {
+            Instantiate(availableWeaponsToChoose[0], new Vector2(1.5f, 2f), Quaternion.identity);
+            Instantiate(availableWeaponsToChoose[1], new Vector2(-1.5f, 2f), Quaternion.identity);
 
-        isDone = true;
+            isDone = true;
+        }
+
+        if (unacquiredWeapons.Count == 1)
+        {
+            Instantiate(availableWeaponsToChoose[0], new Vector2(0, 2f), Quaternion.identity);
+
+            isDone = true;
+        }
+        else Debug.Log($"Display Fail: UnacquiredWeapons is {unacquiredWeapons.Count}");
     }
 }

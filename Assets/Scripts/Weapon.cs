@@ -24,7 +24,6 @@ public class Weapon : MonoBehaviour
 
     public void UpdateKeyAndCooldownTimerLabel(float cooldownTime)
     {
-        Debug.Log("TRIGGERS: UpdateKeyAndCooldownTimerLabel"); // debug
         if (keyAndCooldownText == null) return;
 
         if (cooldownTime > 0)
@@ -102,7 +101,7 @@ public class Weapon : MonoBehaviour
             proceduralWeaponSlotPosition = new Vector2
             (
                 proceduralWeaponSlotPosition.x,
-                proceduralWeaponSlotPosition.y + 2f
+                proceduralWeaponSlotPosition.y + 0.75f
             );
         }
 

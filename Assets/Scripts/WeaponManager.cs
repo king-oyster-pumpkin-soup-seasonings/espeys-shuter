@@ -49,7 +49,7 @@ public class WeaponManager : MonoBehaviour
         {
             laserCountdown -= Time.deltaTime;
             WeaponOnCooldown?.Invoke(laserCountdown);
-            Debug.Log($"LASERTIME: {laserCountdown}");
+            // Debug.Log($"LASERTIME: {laserCountdown}");
         }
         else if (laserCountdown != 0)
         {

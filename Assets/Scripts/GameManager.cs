@@ -38,6 +38,15 @@ public class GameManager : MonoBehaviour
         TriggerWaveComplete(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
     }
 
+    // DEBUG  --------------------
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Y) && isSelectingWeapon == false && isMessageDone == false)
+        {
+            TriggerWaveComplete();
+        }
+    } // DEBUG -------------------
+
     public void InitializeValues()
     {
         score = 0;
