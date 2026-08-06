@@ -16,12 +16,16 @@ public class Health : MonoBehaviour
     private SpriteRenderer shieldSR;
     public bool onShield;
 
+    // lasers
+    private bool isInflictingLaserDamage;
+
     // --- methods ---
     void Start()
     {
         // data
         if (maxHealth == 0) maxHealth = 1;
         currentHealth = maxHealth;
+        isInflictingLaserDamage = false;
 
         if (shield == null) GameObject.FindGameObjectWithTag("Shield");
         if (shield != null && shieldSR == null) shieldSR = shield.GetComponent<SpriteRenderer>();
@@ -30,6 +34,23 @@ public class Health : MonoBehaviour
 
         // ui
         OnHealthChanged.Invoke(currentHealth);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if ((isInflictingLaserDamage == false && other.gameObject.CompareTag("Laser")) &&
+            (gameObject.CompareTag("Enemy") || gameObject.CompareTag("Asteroid")))
+        {
+            StartCoroutine(InflictLaserDamagePerSecond());
+        }
+    }
+
+    private IEnumerator InflictLaserDamagePerSecond(float seconds = 0.125f)
+    {
+        isInflictingLaserDamage = true;
+        TakeDamage();
+        yield return new WaitForSeconds(seconds);
+        isInflictingLaserDamage = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

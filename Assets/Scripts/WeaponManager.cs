@@ -37,9 +37,9 @@ public class WeaponManager : MonoBehaviour
     void Start()
     {
         // weaponSet.Clear();
-        if (fireRate == 0) fireRate = 1f;
-        if (laserCooldownSet == 0) laserCooldownSet = 10f;
-        laserCountdown = laserCooldownSet;
+        if (fireRate == 0) fireRate = 0.8f;
+        if (laserCooldownSet == 0) laserCooldownSet = 12f;
+        laserCountdown = 0;
         currentWeaponUse = 1;
     }
 
@@ -57,21 +57,23 @@ public class WeaponManager : MonoBehaviour
             WeaponOnCooldown?.Invoke(0);
         }
 
+        // laser key
         if (Input.GetKeyDown(KeyCode.L) && IfWeaponExists("WeaponLaser") && laserCountdown <= 0)
         {
             Instantiate(laser, laserPoint.position, laserPoint.rotation);
             laserCountdown = laserCooldownSet;
         }
 
+        // bullet key
         if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.J))
         {
             TriggerWeaponFire();
         }
 
-
+        // auto double bullets
         if (Time.time >= nextFireTimePassive)
         {
-            if (bullet != null && soloBarrelPoint != null)
+            if (bullet != null && leftBarrelPoint != null && rightBarrelPoint != null)
             {
                 if (IfWeaponExists("WeaponDoubleBullet"))
                 {
@@ -79,7 +81,7 @@ public class WeaponManager : MonoBehaviour
                     Instantiate(bullet, rightBarrelPoint.transform.position, rightBarrelPoint.transform.rotation);
                 }
 
-                nextFireTimePassive = (fireRate + 1) + Time.time;
+                nextFireTimePassive = (fireRate + (fireRate / 0.5f)) + Time.time;
             }
         }
     }
@@ -112,7 +114,8 @@ public class WeaponManager : MonoBehaviour
         if (other.CompareTag("PowerUpBulletSpeed"))
         {
             Destroy(other.gameObject);
-            if (fireRate != 0) fireRate -= 0.2f;
+            fireRate -= 0.125f;
+            if (fireRate < 0.2f) fireRate = 0.2f;
         }
     }
 }

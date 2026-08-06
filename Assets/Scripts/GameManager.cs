@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameOverRoutine()
     {
-        yield return new WaitForSeconds(1.75f);
+        yield return new WaitForSeconds(2.25f);
         SceneManager.LoadScene("GameOverScene");
     }
 

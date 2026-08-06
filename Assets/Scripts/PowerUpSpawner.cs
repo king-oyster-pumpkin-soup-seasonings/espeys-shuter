@@ -24,9 +24,10 @@ public class PowerUpSpawner : MonoBehaviour
         {
             transform.position = new Vector2(Random.Range(-9f, 9f), transform.position.y);
             time = 0;
-            spawnInterval = Random.Range(3f, 10f);
-            // spawnInterval = Random.Range(1f, 2f); // debug
-            Instantiate(powerups[Random.Range(0, powerups.Length)], transform.position, transform.rotation);
+            // spawnInterval = Random.Range(3f, 10f);
+            spawnInterval = Random.Range(1f, 2f); // debug
+            GameObject powerup = Instantiate(powerups[Random.Range(0, powerups.Length)], transform.position,
+                transform.rotation);
         }
     }
 }

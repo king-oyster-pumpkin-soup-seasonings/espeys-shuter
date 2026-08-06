@@ -19,9 +19,9 @@ public class Laser : MonoBehaviour
     private IEnumerator LaserOnFire()
     {
         transform.localScale = new Vector2(0.05f, transform.localScale.y);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.25f);
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++)
         {
             yield return new WaitForSeconds(0.05f);
             transform.localScale = new Vector2(0.2f, transform.localScale.y);
@@ -30,7 +30,7 @@ public class Laser : MonoBehaviour
         }
 
         transform.localScale = new Vector2(0.05f, transform.localScale.y);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.25f);
         Destroy(gameObject);
     }
 }

@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         bulletRB = GetComponent<Rigidbody2D>();
-        if (bulletSpeed == 0) bulletSpeed = 5f;
+        if (bulletSpeed == 0) bulletSpeed = 6f;
         if (bulletLifespan == 0) bulletLifespan = 10f;
 
         bulletRB.linearVelocity = transform.up * bulletSpeed;

@@ -24,7 +24,7 @@ public class Weapon : MonoBehaviour
 
     public void UpdateKeyAndCooldownTimerLabel(float cooldownTime)
     {
-        if (keyAndCooldownText == null) return;
+        if (keyAndCooldownText == null || boxCollider.enabled) return;
 
         if (cooldownTime > 0)
         {
@@ -41,6 +41,7 @@ public class Weapon : MonoBehaviour
         proceduralWeaponSlotPosition = new Vector2(-8.35f, -3.75f);
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         weaponIsBeingSelected = false;
+        keyAndCooldownText.text = "";
     }
 
     void Update()
@@ -109,5 +110,6 @@ public class Weapon : MonoBehaviour
 
         boxCollider.enabled = false;
         spriteRenderer.sortingOrder = 3;
+        UpdateKeyAndCooldownTimerLabel(0);
     }
 }
