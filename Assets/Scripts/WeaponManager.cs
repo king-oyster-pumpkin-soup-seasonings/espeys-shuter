@@ -10,6 +10,7 @@ public class WeaponManager : MonoBehaviour
     public List<GameObject> weaponSet;
     [SerializeField] private GameObject bullet;
     [SerializeField] private GameObject laser;
+    [SerializeField] private GameObject bomb;
 
     // Invokes / Actions
     // [SerializeField] private UnityEvent<float> WeaponCooldownTime;
@@ -17,7 +18,7 @@ public class WeaponManager : MonoBehaviour
 
 
     // Projectile Spawning Related
-    [SerializeField] private Transform soloBarrelPoint, leftBarrelPoint, rightBarrelPoint, laserPoint;
+    [SerializeField] private Transform soloBarrelPoint, leftBarrelPoint, rightBarrelPoint, laserPoint, bombPoint;
     [SerializeField] private float fireRate;
     private float nextFireTime, nextFireTimePassive, laserCountdown, laserCooldownSet;
 
@@ -55,6 +56,12 @@ public class WeaponManager : MonoBehaviour
         {
             laserCountdown = 0;
             WeaponOnCooldown?.Invoke(0);
+        }
+
+        // bomb key
+        if (Input.GetKeyDown(KeyCode.K) && IfWeaponExists("WeaponBomb"))
+        {
+            Instantiate(bomb, bombPoint.position, bombPoint.rotation);
         }
 
         // laser key

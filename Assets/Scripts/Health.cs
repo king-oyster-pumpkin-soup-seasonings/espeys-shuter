@@ -88,6 +88,20 @@ public class Health : MonoBehaviour
             }
         }
 
+        // Object collides with BombExplosion
+        if ((gameObject.CompareTag("Enemy") ||
+             gameObject.CompareTag("Asteroid"))
+            && other.gameObject.CompareTag("BombExplosion"))
+        {
+            Debug.Log($"EXPLOSION HIT: {gameObject.name}");
+            TakeDamage();
+            TakeDamage();
+            TakeDamage();
+            TakeDamage();
+            TakeDamage();
+        }
+
+        // Object collides with PLAYER:
         if (gameObject.CompareTag("Enemy") && other.gameObject.CompareTag("Player") ||
             gameObject.CompareTag("Asteroid") && other.gameObject.CompareTag("Player"))
         {
@@ -95,6 +109,7 @@ public class Health : MonoBehaviour
             TakeDamage();
         }
 
+        // Player pickups POWERUPS:
         if (gameObject.CompareTag("Player") && other.gameObject.CompareTag("PowerUpHealth"))
         {
             if (currentHealth < maxHealth)
