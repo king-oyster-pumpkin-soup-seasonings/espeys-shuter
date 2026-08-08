@@ -28,6 +28,7 @@ TagManager:
   - Bomb
   - BombExplosion
   - Missile
+  - ShieldDurationAroundPlayer
   layers:
   - Default
   - TransparentFX

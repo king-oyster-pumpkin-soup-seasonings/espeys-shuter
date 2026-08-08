@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private SpriteRenderer shieldHUDSpriteRenderer;
     [SerializeField] TextMeshProUGUI textShieldDuration;
+    [SerializeField] private TextMeshPro textShieldDurationAroundPlayer;
 
     public static Action OnWaveStart;
     public static Action OnWaveComplete;
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour
         isSelectingWeapon = false;
         killCount = 0;
         textMessage.text = "";
+        textShieldDuration.text = "";
     }
 
 
@@ -136,11 +139,13 @@ public class GameManager : MonoBehaviour
         {
             shieldHUDSpriteRenderer.enabled = false;
             textShieldDuration.text = "";
+            textShieldDurationAroundPlayer.text = "";
         }
         else
         {
             shieldHUDSpriteRenderer.enabled = true;
             textShieldDuration.text = Mathf.CeilToInt(shieldDuration).ToString();
+            textShieldDurationAroundPlayer.text = Mathf.CeilToInt(shieldDuration).ToString();
         }
     }
 

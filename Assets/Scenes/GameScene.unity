@@ -161,6 +161,7 @@ MonoBehaviour:
   waveIsOngoing: 0
   shieldHUDSpriteRenderer: {fileID: 791732102}
   textShieldDuration: {fileID: 1935764495}
+  textShieldDurationAroundPlayer: {fileID: 74586434}
 --- !u!4 &13588067
 Transform:
   m_ObjectHideFlags: 0
@@ -176,6 +177,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &74586434 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7133700612398937513, guid: 5b4c531b2fba2e06dbdad3a76f5cb260, type: 3}
+  m_PrefabInstance: {fileID: 1353787754}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &167722503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,7 +1534,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6788365006770627311, guid: 5b4c531b2fba2e06dbdad3a76f5cb260, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 5b4c531b2fba2e06dbdad3a76f5cb260, type: 3}
 --- !u!1 &1390384975
 GameObject:
@@ -1712,6 +1727,7 @@ MonoBehaviour:
   - {fileID: 4589267885708022177, guid: 238da9228860ccc1b8c5cec7def9f91f, type: 3}
   - {fileID: 3925222128176875828, guid: 49962eaafc50c29c6b9767e7695668df, type: 3}
   - {fileID: 5030404504044193987, guid: 1d5648cec5d44f2e09d891c739497d4c, type: 3}
+  permaPowerUpCaughtDuringTheWave: 0
 --- !u!4 &1559731631 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2954976059661326713, guid: 5b4c531b2fba2e06dbdad3a76f5cb260, type: 3}
