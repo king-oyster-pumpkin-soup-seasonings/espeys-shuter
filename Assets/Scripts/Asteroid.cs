@@ -10,6 +10,7 @@ public class Asteroid : MonoBehaviour
     private bool isExploding;
     [SerializeField] private int scoreValue = 5;
 
+
     void Start()
     {
         isExploding = false;
