@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 163111360113840870, guid: 40ce7d477be04f3afa06d75845ae483f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -106,6 +106,7 @@ MonoBehaviour:
   boxCollider: {fileID: 8836577126866213948}
   keyAndCooldownText: {fileID: 0}
   keyAndAmmoLoaderBombText: {fileID: 5485148582981697444}
+  keyAndAmmoLoadForMissileText: {fileID: 0}
 --- !u!61 &8836577126866213948
 BoxCollider2D:
   m_ObjectHideFlags: 0

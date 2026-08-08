@@ -21,6 +21,28 @@ public class Health : MonoBehaviour
     // lasers
     private bool isInflictingLaserDamage;
 
+
+    // --- methods ---
+    private void OnEnable()
+    {
+        GameManager.OnWaveComplete += SelfDestroyWithExplosionIfAny;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnWaveComplete -= SelfDestroyWithExplosionIfAny;
+    }
+
+    void SelfDestroyWithExplosionIfAny()
+    {
+        if (gameObject.CompareTag("Player")) return;
+
+        while (currentHealth > 0)
+        {
+            TakeDamage();
+        }
+    }
+
     void Update()
     {
         if (gameObject.CompareTag("Player") && onShield && shieldDurationCount > 0)
@@ -36,7 +58,6 @@ public class Health : MonoBehaviour
     }
 
 
-    // --- methods ---
     void Start()
     {
         // data

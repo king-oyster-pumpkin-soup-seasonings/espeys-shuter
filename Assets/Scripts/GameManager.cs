@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private int score;
-    public int wave;
+    public int wave, killCount;
 
     [Header("UI References")] [SerializeField]
     private TextMeshProUGUI textPlayerHealth;
@@ -21,9 +22,13 @@ public class GameManager : MonoBehaviour
     private float time;
     public bool isMessageDone;
     public bool isSelectingWeapon;
+    public bool waveIsOngoing;
 
     [SerializeField] private SpriteRenderer shieldHUDSpriteRenderer;
     [SerializeField] TextMeshProUGUI textShieldDuration;
+
+    public static Action OnWaveStart;
+    public static Action OnWaveComplete;
 
     // SETUPS
     private void Awake()
@@ -35,11 +40,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InitializeValues();
-        // StartCoroutine(StartGameIntroMessageRoutine());
+        StartCoroutine(StartGameIntroMessageRoutine());
         UpdateShieldHUD(0);
         UpdateWaveText(wave);
-
-        TriggerWaveComplete(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
+        // TriggerWaveComplete(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
     }
 
     // DEBUG  --------------------
@@ -57,6 +61,7 @@ public class GameManager : MonoBehaviour
         wave = 1;
         isMessageDone = false;
         isSelectingWeapon = false;
+        killCount = 0;
         textMessage.text = "";
     }
 
@@ -80,15 +85,22 @@ public class GameManager : MonoBehaviour
 
     public void TriggerWaveComplete()
     {
-        HandleWeaponSelection();
-        wave++;
+        OnWaveComplete?.Invoke();
+        waveIsOngoing = false;
         score += 1000;
+        wave++;
+        if (wave <= 5) StartCoroutine(IntermissionBeforeChoosingWeapon());
+        else StartWave();
     }
 
     public void StartWave()
     {
+        killCount = 0;
         UpdateWaveText(wave);
         ShowTextMessage($"Wave {wave}", displayInterval);
+        waveIsOngoing = true;
+
+        OnWaveStart?.Invoke();
     }
 
 
@@ -183,16 +195,18 @@ public class GameManager : MonoBehaviour
         if (textMessage != null) textMessage.text = "";
         yield return new WaitForSeconds(1.25f);
 
-        if (textMessage != null) textMessage.text = $"WAVE {wave}";
-        yield return new WaitForSeconds(displayInterval);
-
-        if (textMessage != null) textMessage.text = "";
-        isMessageDone = true;
+        StartWave();
     }
 
     private IEnumerator IntermissionBeforeStartinWave()
     {
         yield return new WaitForSeconds(1.75f);
         StartWave();
+    }
+
+    private IEnumerator IntermissionBeforeChoosingWeapon()
+    {
+        yield return new WaitForSeconds(1.75f);
+        HandleWeaponSelection();
     }
 }

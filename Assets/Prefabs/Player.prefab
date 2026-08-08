@@ -266,7 +266,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 8655731413827654843, guid: b33ebf68570d3d6f19eb90daae302499, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -428,10 +428,17 @@ MonoBehaviour:
   weaponSet: []
   bullet: {fileID: 5346231957310930420, guid: 82f75ee4e48f9ec9b8e5464cebe76f9a, type: 3}
   laser: {fileID: 850161067815013966, guid: 5a5753a1c8526d3b4a7d0a92769a882a, type: 3}
+  bomb: {fileID: 0}
+  missile: {fileID: 0}
+  bombMaxAmmo: 0
+  bombAmmo: 0
+  missileMaxAmmo: 0
+  missileAmmo: 0
   soloBarrelPoint: {fileID: 6111253658067352127}
   leftBarrelPoint: {fileID: 7973819757871023610}
   rightBarrelPoint: {fileID: 1111932478632345520}
   laserPoint: {fileID: 0}
+  bombPoint: {fileID: 0}
   fireRate: 0
   currentWeaponUse: 0
 --- !u!1 &6140553946090401324

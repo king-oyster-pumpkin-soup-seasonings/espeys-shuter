@@ -37,7 +37,7 @@ public class WeaponSpawner : MonoBehaviour
     {
         if (weapons is null) return;
 
-        Debug.Log($"AVAIL WEAPONS TRIGGERED\n"); // debug
+        // Debug.Log($"AVAIL WEAPONS TRIGGERED\n"); // debug
 
         unacquiredWeapons.Clear();
         bool isWeaponAlreadyOwned;
@@ -56,16 +56,20 @@ public class WeaponSpawner : MonoBehaviour
             if (!isWeaponAlreadyOwned) unacquiredWeapons.Add(weapons[i]);
         }
 
-        if (unacquiredWeapons.Count <= 1) return;
+        if (unacquiredWeapons.Count <= 0) return;
 
-        int randomIndex1 = Random.Range(0, unacquiredWeapons.Count);
-        int randomIndex2;
+        if (unacquiredWeapons.Count > 1)
+        {
+            int randomIndex1 = Random.Range(0, unacquiredWeapons.Count);
+            int randomIndex2;
 
-        do randomIndex2 = Random.Range(0, unacquiredWeapons.Count);
-        while (randomIndex2 == randomIndex1);
+            do randomIndex2 = Random.Range(0, unacquiredWeapons.Count);
+            while (randomIndex2 == randomIndex1);
 
-        availableWeaponsToChoose[0] = unacquiredWeapons[randomIndex1];
-        availableWeaponsToChoose[1] = unacquiredWeapons[randomIndex2];
+            availableWeaponsToChoose[0] = unacquiredWeapons[randomIndex1];
+            availableWeaponsToChoose[1] = unacquiredWeapons[randomIndex2];
+        }
+        else if (unacquiredWeapons.Count == 1) availableWeaponsToChoose[0] = unacquiredWeapons[0];
     }
 
     void DisplayWeaponChooser()
@@ -84,6 +88,7 @@ public class WeaponSpawner : MonoBehaviour
 
             isDone = true;
         }
-        else Debug.Log($"Display Fail: UnacquiredWeapons is {unacquiredWeapons.Count}");
+        else if (unacquiredWeapons.Count < 1)
+            Debug.Log($"Display Fail: UnacquiredWeapons is {unacquiredWeapons.Count}");
     }
 }

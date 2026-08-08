@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -10,6 +11,8 @@ public class Enemy : MonoBehaviour
     private Transform playerTransform;
     private bool isExploding;
     [SerializeField] private int scoreValue = 10;
+
+    public static Action EnemyDied;
 
     void Start()
     {
@@ -42,6 +45,7 @@ public class Enemy : MonoBehaviour
 
         spriteRenderer.sprite = explosionSprite;
 
+        if (gameObject.CompareTag("Enemy")) EnemyDied?.Invoke();
         Destroy(gameObject, 0.3f);
     }
 }

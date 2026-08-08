@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AsteroidSpawner : MonoBehaviour
@@ -8,20 +9,35 @@ public class AsteroidSpawner : MonoBehaviour
     private float time;
     private int spawnCount;
 
+    private void OnEnable()
+    {
+        GameManager.OnWaveStart += StartAsteroidSpawningUponWaveStart;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnWaveStart -= StartAsteroidSpawningUponWaveStart;
+    }
+
     void Start()
     {
         if (spawnInterval == 0) spawnInterval = 1f;
         time = 0;
     }
 
-    void Update()
+    void StartAsteroidSpawningUponWaveStart()
     {
-        if (GameManager.Instance.isMessageDone == false) return;
+        StartCoroutine(CoroutineSpawnLoop());
+    }
 
-        if (time < spawnInterval) time += Time.deltaTime;
-        else
+    private IEnumerator CoroutineSpawnLoop()
+    {
+        Debug.Log("RUNNING COURTINE SPAWN LOOP FOR ASTEROID. note, there is while conditon below");
+        Debug.Log($"is bool waveIsOngoing true? answer is {GameManager.Instance.waveIsOngoing}");
+        while (GameManager.Instance.waveIsOngoing)
         {
-            time = 0;
+            yield return new WaitForSeconds(1f);
+            if (!GameManager.Instance.waveIsOngoing) break;
             RandomizeSpawnPoint();
             if (asteroids.Length > 1) Spawn(asteroids[Random.Range(0, asteroids.Length)]);
             else Spawn(asteroids[0]);
@@ -31,7 +47,7 @@ public class AsteroidSpawner : MonoBehaviour
     void RandomizeSpawnPoint()
     {
         transform.position = new Vector2(Random.Range(-9f, 9f), transform.position.y);
-        if (GameManager.Instance.wave > 0) spawnInterval = Random.Range(0, 5f);
+        if (GameManager.Instance.wave > 0) spawnInterval = Random.Range(0, 3.5f);
     }
 
     void Spawn(GameObject preAsteroid)

@@ -118,6 +118,7 @@ public class Weapon : MonoBehaviour
         WeaponManager.Instance.weaponSet.Add(gameObject);
         GameManager.Instance.isSelectingWeapon = false;
         GameManager.Instance.TriggerWeaponSelectionComplete();
+
         for (int i = 0; i < WeaponManager.Instance.weaponSet.Count; i++)
         {
             transform.position = proceduralWeaponSlotPosition;
@@ -133,7 +134,7 @@ public class Weapon : MonoBehaviour
         boxCollider.enabled = false;
         spriteRenderer.sortingOrder = 3;
         UpdateKeyAndCooldownTimerLabel(0);
-        UpdateKeyAndAmmoLoaderBombText();
-        UpdateKeyAndAmmoLoadForMissileText();
+        UpdateKeyAndAmmoLoaderBombText(WeaponManager.Instance.GetWithResetAmmoValue("WeaponBomb"));
+        UpdateKeyAndAmmoLoadForMissileText(WeaponManager.Instance.GetWithResetAmmoValue("WeaponMissile"));
     }
 }

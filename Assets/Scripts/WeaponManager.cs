@@ -35,7 +35,7 @@ public class WeaponManager : MonoBehaviour
     // Weapon Management
     public int currentWeaponUse;
 
-
+    // METHODS ------------------------
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -173,5 +173,18 @@ public class WeaponManager : MonoBehaviour
             fireRate -= 0.125f;
             if (fireRate < 0.2f) fireRate = 0.2f;
         }
+    }
+
+    public int GetWithResetAmmoValue(string weaponTag)
+    {
+        switch (weaponTag)
+        {
+            case "WeaponMissile":
+                return missileAmmo;
+            case "WeaponBomb":
+                return bombAmmo;
+        }
+
+        return 0;
     }
 }
