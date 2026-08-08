@@ -36,7 +36,7 @@ public class AsteroidSpawner : MonoBehaviour
         Debug.Log($"is bool waveIsOngoing true? answer is {GameManager.Instance.waveIsOngoing}");
         while (GameManager.Instance.waveIsOngoing)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(Random.Range(0.5f, 2f));
             if (!GameManager.Instance.waveIsOngoing) break;
             RandomizeSpawnPoint();
             if (asteroids.Length > 1) Spawn(asteroids[Random.Range(0, asteroids.Length)]);

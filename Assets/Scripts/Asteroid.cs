@@ -16,6 +16,7 @@ public class Asteroid : MonoBehaviour
         isExploding = false;
         if (movementSpeed == 0) movementSpeed = Random.Range(0.3f, 1f);
         asteroidRB.linearVelocity = Vector2.down * movementSpeed;
+        asteroidRB.rotation = Random.Range(0, 360f);
         asteroidRB.AddForceX(Random.Range(-25f, 25f) * movementSpeed);
     }
 
