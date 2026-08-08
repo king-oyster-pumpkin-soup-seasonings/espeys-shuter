@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     // DEBUG  --------------------
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y) && isSelectingWeapon == false && isMessageDone == false)
+        if (Input.GetKeyDown(KeyCode.Y) && isSelectingWeapon == false && waveIsOngoing)
         {
             TriggerWaveComplete();
         }
