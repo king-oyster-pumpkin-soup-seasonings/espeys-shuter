@@ -83,6 +83,7 @@ public class EnemySpawner : MonoBehaviour
                 for (int j = 0; j < i; j++)
                 {
                     yield return new WaitForSeconds(1f);
+                    RandomizeSpawnPoint();
                     Spawn(enemies[0]);
                 }
 
@@ -97,6 +98,7 @@ public class EnemySpawner : MonoBehaviour
 
             for (int i = 0; i < 5; i++)
             {
+                RandomizeSpawnPoint();
                 Spawn(enemies[0]);
                 yield return new WaitForSeconds(2f);
             }
@@ -108,6 +110,7 @@ public class EnemySpawner : MonoBehaviour
 
             for (int i = 0; i < 5; i++)
             {
+                RandomizeSpawnPoint();
                 Spawn(enemies[0]);
                 yield return new WaitForSeconds(2f);
             }
@@ -120,6 +123,7 @@ public class EnemySpawner : MonoBehaviour
         {
             for (int i = 0; i < 5; i++)
             {
+                RandomizeSpawnPoint();
                 Spawn(enemies[0]);
                 yield return new WaitForSeconds(2f);
             }

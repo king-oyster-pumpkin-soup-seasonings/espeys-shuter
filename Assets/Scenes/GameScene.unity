@@ -159,7 +159,6 @@ MonoBehaviour:
   isMessageDone: 0
   isSelectingWeapon: 0
   waveIsOngoing: 0
-  allEnemiesInWaveSpawned: 0
   shieldHUDSpriteRenderer: {fileID: 791732102}
   textShieldDuration: {fileID: 1935764495}
 --- !u!4 &13588067
@@ -2382,7 +2381,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!224 &1939482212
 RectTransform:
