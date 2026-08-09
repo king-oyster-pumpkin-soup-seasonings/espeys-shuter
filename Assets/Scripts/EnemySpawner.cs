@@ -84,10 +84,10 @@ public class EnemySpawner : MonoBehaviour
                 {
                     yield return new WaitForSeconds(1f);
                     RandomizeSpawnPoint();
-                    Spawn(enemies[0]);
+                    Spawn(enemies[1]);
                 }
 
-                yield return new WaitUntil(() => aliveEnemyCount <= 0);
+                // yield return new WaitUntil(() => aliveEnemyCount <= 0);
             }
         }
 

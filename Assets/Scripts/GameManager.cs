@@ -42,10 +42,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InitializeValues();
-        StartCoroutine(StartGameIntroMessageRoutine());
+        // StartCoroutine(StartGameIntroMessageRoutine());
         UpdateShieldHUD(0);
         UpdateWaveText(wave);
-        // TriggerWaveComplete(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
+        StartWave(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
     }
 
     // DEBUG  --------------------

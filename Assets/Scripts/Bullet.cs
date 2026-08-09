@@ -1,19 +1,37 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float bulletLifespan;
     [SerializeField] private Rigidbody2D bulletRB;
     [SerializeField] private float bulletSpeed;
+    [SerializeField] private SpriteRenderer bulletSR;
+    [SerializeField] private BoxCollider2D bulletCollider;
+    [SerializeField] private Sprite hitSprite;
 
     void Start()
     {
+        bulletSR = GetComponent<SpriteRenderer>();
         bulletRB = GetComponent<Rigidbody2D>();
         if (bulletSpeed == 0) bulletSpeed = 6f;
-        if (bulletLifespan == 0) bulletLifespan = 10f;
 
         bulletRB.linearVelocity = transform.up * bulletSpeed;
-        Destroy(gameObject, bulletLifespan);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (gameObject.CompareTag("PlayerBullet") && (
+                other.CompareTag("Asteroid") || other.CompareTag("Enemy") ||
+                other.CompareTag("EnemyFighter") || other.CompareTag("EnemySprayer")))
+        {
+            bulletSpeed = 0;
+            bulletRB.linearVelocity = Vector2.zero;
+            bulletSR.sprite = hitSprite;
+            bulletCollider.enabled = false;
+            transform.localScale = new Vector2(1.5f, 1.5f);
+            transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
+            Destroy(gameObject, 0.1f);
+        }
     }
 
     void Update()

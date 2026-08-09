@@ -97,16 +97,14 @@ public class Health : MonoBehaviour
     {
         if (gameObject.CompareTag("Enemy") && other.gameObject.CompareTag("PlayerBullet") ||
             gameObject.CompareTag("Asteroid") && other.gameObject.CompareTag("PlayerBullet") ||
+            gameObject.CompareTag("EnemySprayer") && other.gameObject.CompareTag("PlayerBullet") ||
+            gameObject.CompareTag("EnemyFighter") && other.gameObject.CompareTag("PlayerBullet") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("EnemyBullet") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("Enemy") ||
+            gameObject.CompareTag("Player") && other.gameObject.CompareTag("EnemySprayer") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("Asteroid"))
         {
             TakeDamage();
-
-            if (other.CompareTag("PlayerBullet") || other.CompareTag("EnemyBullet"))
-            {
-                Destroy(other.gameObject);
-            }
         }
 
         // Object collides with missile
@@ -135,6 +133,8 @@ public class Health : MonoBehaviour
 
         // Object collides with PLAYER:
         if (gameObject.CompareTag("Enemy") && other.gameObject.CompareTag("Player") ||
+            gameObject.CompareTag("EnemySprayer") && other.gameObject.CompareTag("Player") ||
+            gameObject.CompareTag("EnemyFighter") && other.gameObject.CompareTag("Player") ||
             gameObject.CompareTag("Asteroid") && other.gameObject.CompareTag("Player"))
         {
             currentHealth = 0;

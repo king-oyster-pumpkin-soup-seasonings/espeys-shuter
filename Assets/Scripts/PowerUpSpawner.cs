@@ -54,8 +54,8 @@ public class PowerUpSpawner : MonoBehaviour
             if (permaPowerUpCaughtDuringTheWave < 3)
             {
                 Instantiate(powerups[Random.Range(0, powerups.Length)], transform.position, transform.rotation);
-                // spawnInterval = Random.Range(10f, 15f);
-                spawnInterval = Random.Range(0, 1f); // for debug since its fast 
+                spawnInterval = Random.Range(10f, 15f);
+                // spawnInterval = Random.Range(0, 1f); // for debug since its fast 
             }
             else
             {

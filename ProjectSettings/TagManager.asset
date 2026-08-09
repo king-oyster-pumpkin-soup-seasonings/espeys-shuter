@@ -29,6 +29,9 @@ TagManager:
   - BombExplosion
   - Missile
   - ShieldDurationAroundPlayer
+  - EnemySprayer
+  - EnemySpartan
+  - EnemyFighter
   layers:
   - Default
   - TransparentFX

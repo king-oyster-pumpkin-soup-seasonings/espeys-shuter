@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         transform.position = new Vector2(0, -3.5f);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isExploding) return;
 
