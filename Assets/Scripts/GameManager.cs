@@ -44,11 +44,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InitializeValues();
-        // StartCoroutine(StartGameIntroMessageRoutine());
+        StartCoroutine(StartGameIntroMessageRoutine());
         UpdateShieldHUD(0);
         UpdateWaveText(wave);
-        wave = 6; // debug test
-        HandleWeaponSelection();
+        // wave = 6; // debug test
+        // HandleWeaponSelection();
         // StartWave(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
     }
 
@@ -92,10 +92,10 @@ public class GameManager : MonoBehaviour
 
     public void TriggerWaveComplete()
     {
-        OnWaveComplete?.Invoke();
         waveIsOngoing = false;
         score += 1000;
         wave++;
+        OnWaveComplete?.Invoke();
         if (wave <= 5) StartCoroutine(IntermissionBeforeChoosingWeapon());
         else StartWave();
     }

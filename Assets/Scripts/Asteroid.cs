@@ -1,4 +1,5 @@
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Asteroid : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite explosionSprite;
     private bool isExploding;
-    [SerializeField] private int scoreValue = 5;
+    [SerializeField] private int scoreValue = 1;
 
 
     void Start()
@@ -27,12 +28,15 @@ public class Asteroid : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void AsteroidExplode()
+    public void AsteroidExplode(string hittedBy = "")
     {
         if (isExploding) return;
         isExploding = true;
 
-        if (GameManager.Instance != null)
+        Debug.Log($"HITTED BY {hittedBy}");
+
+        if ((GameManager.Instance != null && GameManager.Instance.waveIsOngoing) &&
+            (!hittedBy.Equals("Boss") && !hittedBy.Equals("")))
             GameManager.Instance.AddScore(scoreValue);
 
         asteroidRB.linearVelocity = Vector2.zero;

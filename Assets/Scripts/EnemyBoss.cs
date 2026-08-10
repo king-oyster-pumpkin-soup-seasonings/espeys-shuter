@@ -45,7 +45,7 @@ public class EnemyBoss : MonoBehaviour
         if (enemyBossRB == null) enemyBossRB = GetComponent<Rigidbody2D>();
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         if (explosionSprite == null) Debug.LogError("Enemy Boss: Missing Explosion Sprite Component");
-        if (scoreValue == 0) scoreValue = 5000;
+        if (scoreValue == 0) scoreValue = 100;
         if (isExploding) isExploding = false;
 
         // weapon
@@ -128,7 +128,7 @@ public class EnemyBoss : MonoBehaviour
         if (!isIntroSpawnDone && isIntermissionDone)
         {
             enemyBossRB.linearVelocity = transform.up * movementSpeed;
-            if (enemyBossRB.position.y < 4f)
+            if (enemyBossRB.position.y < 3.5f)
             {
                 isIntroSpawnDone = true;
                 StartCoroutine(TriggerIntermissionFor(3f));

@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
     [SerializeField] private int currentHealth;
 
     [SerializeField] private UnityEvent<int> OnHealthChanged;
-    [SerializeField] private UnityEvent OnDied;
+    [SerializeField] private UnityEvent<string> OnDied;
 
     // shields
     [SerializeField] GameObject shield;
@@ -43,7 +43,7 @@ public class Health : MonoBehaviour
 
         while (currentHealth > 0)
         {
-            TakeDamage();
+            TakeDamage("Asteroid");
         }
     }
 
@@ -103,7 +103,7 @@ public class Health : MonoBehaviour
     private IEnumerator InflictLaserDamagePerSecond(float seconds = 0.125f)
     {
         isInflictingLaserDamage = true;
-        TakeDamage();
+        TakeDamage("Laser");
         yield return new WaitForSeconds(seconds);
         isInflictingLaserDamage = false;
     }
@@ -121,7 +121,7 @@ public class Health : MonoBehaviour
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("EnemyFighter") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("Asteroid"))
         {
-            TakeDamage();
+            TakeDamage(other.tag);
         }
 
         // Object collides with missile
@@ -132,9 +132,9 @@ public class Health : MonoBehaviour
              gameObject.CompareTag("Asteroid"))
             && other.gameObject.CompareTag("Missile"))
         {
-            TakeDamage();
-            TakeDamage();
-            TakeDamage();
+            TakeDamage(other.tag);
+            TakeDamage(other.tag);
+            TakeDamage(other.tag);
             Destroy(other.gameObject);
         }
 
@@ -147,11 +147,11 @@ public class Health : MonoBehaviour
             && other.gameObject.CompareTag("BombExplosion"))
         {
             // Debug.Log($"EXPLOSION HIT: {gameObject.name}");
-            TakeDamage();
-            TakeDamage();
-            TakeDamage();
-            TakeDamage();
-            TakeDamage();
+            TakeDamage(other.tag);
+            TakeDamage(other.tag);
+            TakeDamage(other.tag);
+            TakeDamage(other.tag);
+            TakeDamage(other.tag);
         }
 
         // Object collides with PLAYER:
@@ -161,20 +161,20 @@ public class Health : MonoBehaviour
             gameObject.CompareTag("Asteroid") && other.gameObject.CompareTag("Player"))
         {
             currentHealth = 0;
-            TakeDamage();
+            TakeDamage(other.tag);
         }
 
         // Asteroid Collides with the BOSS:
         if (gameObject.CompareTag("Asteroid") && other.CompareTag("Boss"))
         {
             currentHealth = 0;
-            TakeDamage();
+            TakeDamage(other.tag);
         }
 
         if (gameObject.CompareTag("Player") && other.CompareTag("Boss"))
         {
             currentHealth = 0;
-            TakeDamage();
+            TakeDamage(other.tag);
         }
 
         // Player pickups POWERUPS:
@@ -205,7 +205,7 @@ public class Health : MonoBehaviour
     }
 
 
-    public void TakeDamage()
+    public void TakeDamage(string hittedBy = "")
     {
         // condition
         if (onShield) return;
@@ -216,7 +216,7 @@ public class Health : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            OnDied.Invoke();
+            OnDied.Invoke(hittedBy);
         }
     }
 

@@ -136,7 +136,7 @@ MonoBehaviour:
   movementSpeed: 0
   spriteRenderer: {fileID: 4434870308786244291}
   explosionSprite: {fileID: 9076186889591631601, guid: 0d0622fbcb50bc3da99942c76df35e0c, type: 3}
-  scoreValue: 5
+  scoreValue: 1
 --- !u!114 &2143022432719688404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1867011211716010920}
         m_TargetAssemblyTypeName: Asteroid, Assembly-CSharp
         m_MethodName: AsteroidExplode
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
