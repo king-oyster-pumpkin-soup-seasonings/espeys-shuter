@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
 
         spriteRenderer.sprite = explosionSprite;
 
-        if (gameObject.CompareTag("Enemy")) EnemyDied?.Invoke();
+        EnemyDied?.Invoke();
         Destroy(gameObject, 0.3f);
     }
 
@@ -104,7 +104,7 @@ public class Enemy : MonoBehaviour
         if (enemyRB.position.y >= 6f || enemyRB.position.y <= -6f && !gameObject.CompareTag("EnemySprayer"))
             transform.position = new Vector2(transform.position.x, 5.5f);
 
-        if (enemyRB.position.x >= 9.5f || enemyRB.position.x <= -9.5f && !gameObject.CompareTag("EnemySprayer"))
+        if (enemyRB.position.x >= 9.2f || enemyRB.position.x <= -9.2f && !gameObject.CompareTag("EnemySprayer"))
             transform.position = new Vector2(Random.Range(-9f, 9f), 7f);
     }
 
@@ -123,7 +123,7 @@ public class Enemy : MonoBehaviour
     {
         while (!isExploding)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(Random.Range(2f, 5f));
             Instantiate(enemyBullet, soloBarrel.position, soloBarrel.rotation);
             widthMovement = Random.Range(1f, 5f);
             assignedDirection = directionsX[Random.Range(0, directionsX.Length)];
@@ -131,7 +131,7 @@ public class Enemy : MonoBehaviour
             if (directionY.y < 1f)
             {
                 directionY.y = Mathf.Round(Random.Range(-1f, 1f));
-                Debug.Log($"new directionY: {directionY.y}");
+                // Debug.Log($"new directionY: {directionY.y}");
             }
             else directionY.y = -1f;
         }
@@ -142,7 +142,7 @@ public class Enemy : MonoBehaviour
         while (!isExploding)
         {
             // Debug.Log("SPRAYER SHOOTS");
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(Random.Range(3f, 5f));
             Instantiate(enemyBullet, barrel1.position, barrel1.rotation);
             Instantiate(enemyBullet, barrel2.position, barrel2.rotation);
             Instantiate(enemyBullet, barrel3.position, barrel3.rotation);

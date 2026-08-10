@@ -5,6 +5,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private float spawnInterval;
     [SerializeField] private GameObject[] enemies;
+    [SerializeField] private GameObject[] enemyBosses;
     private float time;
     private int aliveEnemyCount;
     public int spawnCount, spawnLimit;
@@ -33,7 +34,7 @@ public class EnemySpawner : MonoBehaviour
     {
         Debug.Log("Calling method to StartSpawningUponWaveStart");
 
-        if (GameManager.Instance.wave > 5)
+        if (GameManager.Instance.wave >= 7)
         {
             Debug.Log($"Wave: {GameManager.Instance.wave}, so endless mode(?)");
             if (time < spawnInterval) time += Time.deltaTime;
@@ -44,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
                 Spawn(enemies[0]);
             }
         }
-        else if (GameManager.Instance.wave <= 5)
+        else if (GameManager.Instance.wave <= 6)
         {
             Debug.Log($"Wave < 5 = STARTING SPAWN SET WAVE NO: {GameManager.Instance.wave} !");
             StartCoroutine(SpawnSetWaveNo(GameManager.Instance.wave));
@@ -84,10 +85,10 @@ public class EnemySpawner : MonoBehaviour
                 {
                     yield return new WaitForSeconds(1f);
                     RandomizeSpawnPoint();
-                    Spawn(enemies[1]);
+                    Spawn(enemies[0]);
                 }
 
-                // yield return new WaitUntil(() => aliveEnemyCount <= 0);
+                yield return new WaitUntil(() => aliveEnemyCount <= 0);
             }
         }
 
@@ -96,14 +97,24 @@ public class EnemySpawner : MonoBehaviour
         {
             // spawnCount = 0;
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 3; i++)
             {
                 RandomizeSpawnPoint();
                 Spawn(enemies[0]);
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1f);
             }
 
             Debug.Log("Spawn forloop complete! Waiting for kill for next batch");
+
+            yield return new WaitUntil(() => aliveEnemyCount <= 0);
+            yield return new WaitForSeconds(3f);
+
+            for (int i = 0; i < 2; i++)
+            {
+                RandomizeSpawnPoint();
+                Spawn(enemies[1]);
+                yield return new WaitForSeconds(3f);
+            }
 
             yield return new WaitUntil(() => aliveEnemyCount <= 0);
             yield return new WaitForSeconds(3f);
@@ -112,6 +123,9 @@ public class EnemySpawner : MonoBehaviour
             {
                 RandomizeSpawnPoint();
                 Spawn(enemies[0]);
+                yield return new WaitForSeconds(1f);
+                RandomizeSpawnPoint();
+                Spawn(enemies[1]);
                 yield return new WaitForSeconds(2f);
             }
 
@@ -125,17 +139,35 @@ public class EnemySpawner : MonoBehaviour
             {
                 RandomizeSpawnPoint();
                 Spawn(enemies[0]);
+                yield return new WaitForSeconds(1f);
+                RandomizeSpawnPoint();
+                Spawn(enemies[2]);
                 yield return new WaitForSeconds(2f);
             }
+
+            yield return new WaitUntil(() => aliveEnemyCount <= 0);
         }
 
         // WAVE 4
         else if (waveNum == 4)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
+                RandomizeSpawnPoint();
+                Spawn(enemies[0]);
+                yield return new WaitForSeconds(1f);
+                RandomizeSpawnPoint();
+                Spawn(enemies[2]);
+                RandomizeSpawnPoint();
                 Spawn(enemies[0]);
                 yield return new WaitForSeconds(2f);
+                RandomizeSpawnPoint();
+                Spawn(enemies[1]);
+                RandomizeSpawnPoint();
+                Spawn(enemies[1]);
+                yield return new WaitForSeconds(1f);
+
+                yield return new WaitUntil(() => aliveEnemyCount <= 3);
             }
         }
 
@@ -144,9 +176,20 @@ public class EnemySpawner : MonoBehaviour
         {
             for (int i = 0; i < 5; i++)
             {
+                RandomizeSpawnPoint();
                 Spawn(enemies[0]);
+                RandomizeSpawnPoint();
+                Spawn(enemies[1]);
+                RandomizeSpawnPoint();
+                Spawn(enemies[2]);
                 yield return new WaitForSeconds(2f);
             }
+        }
+
+        else if (waveNum == 6)
+        {
+            Spawn(enemyBosses[0]);
+            yield return new WaitForSeconds(2f);
         }
 
 

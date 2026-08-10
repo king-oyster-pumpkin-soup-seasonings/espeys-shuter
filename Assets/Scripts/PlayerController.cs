@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
         isExploding = false;
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         if (playerRigidBody == null) playerRigidBody = GetComponent<Rigidbody2D>();
-        if (movementSpeed == 0) movementSpeed = 11;
+        if (movementSpeed == 0) movementSpeed = 8;
         if (playerRigidBody != null) playerRigidBody.linearDamping = 1.25f;
 
         GoToSpawnPoint();
@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
             movementSpeed += 7.5f;
             playerRigidBody.linearDamping += 0.33f;
 
-            if (playerRigidBody.linearDamping >= 4.25f) playerRigidBody.linearDamping = 4.25f;
+            if (playerRigidBody.linearDamping >= 4.5f) playerRigidBody.linearDamping = 4.5f;
             if (movementSpeed >= 50f) movementSpeed = 50f;
         }
     }

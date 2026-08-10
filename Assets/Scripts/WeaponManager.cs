@@ -51,7 +51,7 @@ public class WeaponManager : MonoBehaviour
         if (fireRate == 0) fireRate = 0.8f;
         if (laserCooldownSet == 0) laserCooldownSet = 12f;
         if (bombMaxAmmo == 0) bombMaxAmmo = 5;
-        if (missileMaxAmmo == 0) missileMaxAmmo = 5;
+        if (missileMaxAmmo == 0) missileMaxAmmo = 3;
         bombAmmo = bombMaxAmmo - 1;
         missileAmmo = missileMaxAmmo - 1;
         laserCountdown = 0;
@@ -84,7 +84,7 @@ public class WeaponManager : MonoBehaviour
             BombAddAmmo?.Invoke(bombAmmo);
         }
 
-        if (timeForMissileReloading < 5)
+        if (timeForMissileReloading < 10)
         {
             timeForMissileReloading += Time.deltaTime;
         }
@@ -170,7 +170,7 @@ public class WeaponManager : MonoBehaviour
         if (other.CompareTag("PowerUpBulletSpeed"))
         {
             Destroy(other.gameObject);
-            fireRate -= 0.125f;
+            fireRate -= 0.2f;
             if (fireRate < 0.2f) fireRate = 0.2f;
         }
     }

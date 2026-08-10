@@ -237,6 +237,8 @@ MonoBehaviour:
   - {fileID: 3508295729592269031, guid: 4a0991aef9611caadba38b9301d84adc, type: 3}
   - {fileID: 1464184216075215357, guid: 005af1181c27c5cef863c34529765edb, type: 3}
   - {fileID: 6499805792482063394, guid: 903276329108c8d4d98fbe3d9f61befa, type: 3}
+  enemyBosses:
+  - {fileID: 611740164994872717, guid: 0c92e84aa04adf9ebac6e5aae516fa0d, type: 3}
   spawnCount: 0
   spawnLimit: 0
 --- !u!1 &386970314

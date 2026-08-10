@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 1564870059092205229}
   - component: {fileID: -7564726680842169031}
   - component: {fileID: 8795430360508426587}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemySprayer
   m_TagString: EnemySprayer
   m_Icon: {fileID: 0}
@@ -212,6 +212,7 @@ MonoBehaviour:
   barrel2: {fileID: 1307158029943353009}
   barrel3: {fileID: 6980578486369180858}
   barrel4: {fileID: 4679308159699547251}
+  soloBarrel: {fileID: 0}
   enemyBullet: {fileID: 2005855903261989952, guid: 73663bd326fab895d84a09c1f395fbbb, type: 3}
 --- !u!50 &1564870059092205229
 Rigidbody2D:

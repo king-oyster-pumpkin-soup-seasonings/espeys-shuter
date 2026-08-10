@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,6 +32,9 @@ public class GameManager : MonoBehaviour
     public static Action OnWaveComplete;
 
     // SETUPS
+    private void OnEnable() => EnemyBoss.EnemyBossDied += DeclareGameComplete;
+    private void OnDisable() => EnemyBoss.EnemyBossDied -= DeclareGameComplete;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
         // StartCoroutine(StartGameIntroMessageRoutine());
         UpdateShieldHUD(0);
         UpdateWaveText(wave);
+        wave = 6; // debug test
         StartWave(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
     }
 
@@ -182,11 +185,18 @@ public class GameManager : MonoBehaviour
 
     public void DeclareGameComplete()
     {
-        SceneManager.LoadScene("LevelCompleteScene");
+        waveIsOngoing = false;
+        StartCoroutine(GameCompleteRoutine());
     }
 
 
     // COROUTINES
+    private IEnumerator GameCompleteRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("LevelCompleteScene");
+    }
+
     private IEnumerator StartGameIntroMessageRoutine()
     {
         isMessageDone = false;

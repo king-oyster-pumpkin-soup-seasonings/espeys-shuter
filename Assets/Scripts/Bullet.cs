@@ -22,16 +22,23 @@ public class Bullet : MonoBehaviour
     {
         if (gameObject.CompareTag("PlayerBullet") && (
                 other.CompareTag("Asteroid") || other.CompareTag("Enemy") ||
-                other.CompareTag("EnemyFighter") || other.CompareTag("EnemySprayer")))
+                other.CompareTag("EnemyFighter") || other.CompareTag("EnemySprayer") ||
+                other.CompareTag("Boss")))
         {
-            bulletSpeed = 0;
-            bulletRB.linearVelocity = Vector2.zero;
-            bulletSR.sprite = hitSprite;
-            bulletCollider.enabled = false;
-            transform.localScale = new Vector2(1.5f, 1.5f);
-            transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
-            Destroy(gameObject, 0.1f);
+            BulletOnHit();
         }
+        else if (gameObject.CompareTag("EnemyBullet") && other.CompareTag("Player")) BulletOnHit();
+    }
+
+    void BulletOnHit()
+    {
+        bulletSpeed = 0;
+        bulletRB.linearVelocity = Vector2.zero;
+        bulletSR.sprite = hitSprite;
+        bulletCollider.enabled = false;
+        transform.localScale = new Vector2(1.5f, 1.5f);
+        transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
+        Destroy(gameObject, 0.1f);
     }
 
     void Update()

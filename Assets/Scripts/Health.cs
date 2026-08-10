@@ -26,11 +26,13 @@ public class Health : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnWaveComplete += SelfDestroyWithExplosionIfAny;
+        EnemyBoss.EnemyBossDied += SelfDestroyWithExplosionIfAny;
     }
 
     private void OnDisable()
     {
         GameManager.OnWaveComplete -= SelfDestroyWithExplosionIfAny;
+        EnemyBoss.EnemyBossDied -= SelfDestroyWithExplosionIfAny;
     }
 
     void SelfDestroyWithExplosionIfAny()
@@ -78,8 +80,10 @@ public class Health : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if ((isInflictingLaserDamage == false && other.gameObject.CompareTag("Laser")) &&
-            (gameObject.CompareTag("Enemy") || gameObject.CompareTag("Asteroid")))
+        if (!isInflictingLaserDamage && other.CompareTag("Laser") &&
+            (gameObject.CompareTag("Enemy") || gameObject.CompareTag("Asteroid") ||
+             gameObject.CompareTag("EnemySprayer") || gameObject.CompareTag("EnemyFighter") ||
+             gameObject.CompareTag("Boss")))
         {
             StartCoroutine(InflictLaserDamagePerSecond());
         }
@@ -99,9 +103,11 @@ public class Health : MonoBehaviour
             gameObject.CompareTag("Asteroid") && other.gameObject.CompareTag("PlayerBullet") ||
             gameObject.CompareTag("EnemySprayer") && other.gameObject.CompareTag("PlayerBullet") ||
             gameObject.CompareTag("EnemyFighter") && other.gameObject.CompareTag("PlayerBullet") ||
+            gameObject.CompareTag("Boss") && other.gameObject.CompareTag("PlayerBullet") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("EnemyBullet") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("Enemy") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("EnemySprayer") ||
+            gameObject.CompareTag("Player") && other.gameObject.CompareTag("EnemyFighter") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("Asteroid"))
         {
             TakeDamage();
@@ -109,6 +115,9 @@ public class Health : MonoBehaviour
 
         // Object collides with missile
         if ((gameObject.CompareTag("Enemy") ||
+             gameObject.CompareTag("EnemySprayer") ||
+             gameObject.CompareTag("EnemyFighter") ||
+             gameObject.CompareTag("Boss") ||
              gameObject.CompareTag("Asteroid"))
             && other.gameObject.CompareTag("Missile"))
         {
@@ -120,6 +129,9 @@ public class Health : MonoBehaviour
 
         // Object collides with BombExplosion
         if ((gameObject.CompareTag("Enemy") ||
+             gameObject.CompareTag("EnemySprayer") ||
+             gameObject.CompareTag("EnemyFighter") ||
+             gameObject.CompareTag("Boss") ||
              gameObject.CompareTag("Asteroid"))
             && other.gameObject.CompareTag("BombExplosion"))
         {
@@ -136,6 +148,19 @@ public class Health : MonoBehaviour
             gameObject.CompareTag("EnemySprayer") && other.gameObject.CompareTag("Player") ||
             gameObject.CompareTag("EnemyFighter") && other.gameObject.CompareTag("Player") ||
             gameObject.CompareTag("Asteroid") && other.gameObject.CompareTag("Player"))
+        {
+            currentHealth = 0;
+            TakeDamage();
+        }
+
+        // Asteroid Collides with the BOSS:
+        if (gameObject.CompareTag("Asteroid") && other.CompareTag("Boss"))
+        {
+            currentHealth = 0;
+            TakeDamage();
+        }
+
+        if (gameObject.CompareTag("Player") && other.CompareTag("Boss"))
         {
             currentHealth = 0;
             TakeDamage();

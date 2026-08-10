@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806b9837cc4f26041a1d2817d994040f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
+  movementSpeed: 0
   playerRigidBody: {fileID: 7988134392061579897}
   spriteRenderer: {fileID: 1263156189394125597}
   explosionSprite: {fileID: -6474883903819434044, guid: 18289f989de726f5db80f1d2865b19b4, type: 3}

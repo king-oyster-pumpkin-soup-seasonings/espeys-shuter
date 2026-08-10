@@ -103,12 +103,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45964e214843662da258b53f93e1e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 2
+  movementSpeed: 3
   enemyRB: {fileID: 9165277407789244908}
   player: {fileID: 0}
   spriteRenderer: {fileID: 8532140252578710704}
   explosionSprite: {fileID: -6474883903819434044, guid: 18289f989de726f5db80f1d2865b19b4, type: 3}
   scoreValue: 10
+  widthMovement: 0
+  rotationSpeed: 0
+  barrel1: {fileID: 0}
+  barrel2: {fileID: 0}
+  barrel3: {fileID: 0}
+  barrel4: {fileID: 0}
+  soloBarrel: {fileID: 0}
+  enemyBullet: {fileID: 0}
 --- !u!50 &9165277407789244908
 Rigidbody2D:
   serializedVersion: 5

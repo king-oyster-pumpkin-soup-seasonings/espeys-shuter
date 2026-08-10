@@ -24,7 +24,7 @@ public class Bomb : MonoBehaviour
 
     void Start()
     {
-        if (bombCountdown == 0) bombCountdown = 3f;
+        if (bombCountdown == 0) bombCountdown = 10f;
         bombExplosionSR.enabled = false;
         bombRB = GetComponent<Rigidbody2D>();
         if (bombSpeed == 0) bombSpeed = 0.2f;
