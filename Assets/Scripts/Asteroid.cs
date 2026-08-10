@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -39,10 +40,20 @@ public class Asteroid : MonoBehaviour
             (!hittedBy.Equals("Boss") && !hittedBy.Equals("")))
             GameManager.Instance.AddScore(scoreValue);
 
+        if (GameManager.Instance.waveIsOngoing)
+        {
+            asteroidRB.linearVelocity = Vector2.zero;
+            spriteRenderer.sprite = explosionSprite;
+            Destroy(gameObject, 0.3f);
+        }
+        else StartCoroutine(RoutineAsteroidExplode());
+    }
+
+    private IEnumerator RoutineAsteroidExplode()
+    {
+        yield return new WaitForSeconds(Random.Range(1f, 2.25f));
         asteroidRB.linearVelocity = Vector2.zero;
-
         spriteRenderer.sprite = explosionSprite;
-
         Destroy(gameObject, 0.3f);
     }
 }

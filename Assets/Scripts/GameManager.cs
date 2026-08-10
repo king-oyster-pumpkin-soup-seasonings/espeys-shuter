@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI textMessage;
     [SerializeField] private TextMeshProUGUI textScore;
-    [SerializeField] private TextMeshProUGUI textWave;
+    [SerializeField] private TextMeshProUGUI textWaveLabel, textWave;
+    [SerializeField] private TextMeshProUGUI textBossHPLabel, textBossHP;
 
     [SerializeField] float displayInterval;
     private float time;
@@ -44,11 +45,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InitializeValues();
-        StartCoroutine(StartGameIntroMessageRoutine());
+        // StartCoroutine(StartGameIntroMessageRoutine());
         UpdateShieldHUD(0);
         UpdateWaveText(wave);
-        // wave = 6; // debug test
-        // HandleWeaponSelection();
+        wave = 6; // debug test A
+        HandleWeaponSelection(); // debug test A
         // StartWave(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
     }
 
@@ -70,6 +71,8 @@ public class GameManager : MonoBehaviour
         killCount = 0;
         textMessage.text = "";
         textShieldDuration.text = "";
+        textBossHPLabel.enabled = false;
+        textBossHP.enabled = false;
     }
 
 
@@ -108,6 +111,14 @@ public class GameManager : MonoBehaviour
         waveIsOngoing = true;
 
         OnWaveStart?.Invoke();
+
+        if (wave == 6)
+        {
+            textWaveLabel.enabled = false;
+            textWave.enabled = false;
+            textBossHPLabel.enabled = true;
+            textBossHP.enabled = true;
+        }
     }
 
 
