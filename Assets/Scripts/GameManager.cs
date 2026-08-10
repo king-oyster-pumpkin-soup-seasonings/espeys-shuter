@@ -116,7 +116,8 @@ public class GameManager : MonoBehaviour
     {
         killCount = 0;
         UpdateWaveText(wave);
-        ShowTextMessage($"Wave {wave}", displayInterval);
+        if (wave != 6) ShowTextMessage($"Wave {wave}", displayInterval);
+        else if (wave == 6) ShowTextMessage("Final Boss!", displayInterval);
         waveIsOngoing = true;
 
         OnWaveStart?.Invoke();
