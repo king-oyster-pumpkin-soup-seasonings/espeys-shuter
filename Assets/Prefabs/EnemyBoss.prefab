@@ -186,6 +186,7 @@ MonoBehaviour:
   enemyBullet: {fileID: 2005855903261989952, guid: 73663bd326fab895d84a09c1f395fbbb, type: 3}
   enemyLaser: {fileID: 850161067815013966, guid: 5a5753a1c8526d3b4a7d0a92769a882a, type: 3}
   enemyDrones: {fileID: 0}
+  bulletFireRate: 0
   player: {fileID: 4140073522730106551, guid: 5b4c531b2fba2e06dbdad3a76f5cb260, type: 3}
 --- !u!50 &-8357471234045077604
 Rigidbody2D:

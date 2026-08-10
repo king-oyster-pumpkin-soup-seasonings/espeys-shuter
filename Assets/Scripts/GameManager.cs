@@ -33,8 +33,17 @@ public class GameManager : MonoBehaviour
     public static Action OnWaveComplete;
 
     // SETUPS
-    private void OnEnable() => EnemyBoss.EnemyBossDied += DeclareGameComplete;
-    private void OnDisable() => EnemyBoss.EnemyBossDied -= DeclareGameComplete;
+    private void OnEnable()
+    {
+        EnemyBoss.EnemyBossDied += DeclareGameComplete;
+        Health.OnHealthChangeAlt += UpdateBossHealthText;
+    }
+
+    private void OnDisable()
+    {
+        EnemyBoss.EnemyBossDied -= DeclareGameComplete;
+        Health.OnHealthChangeAlt -= UpdateBossHealthText;
+    }
 
     private void Awake()
     {
@@ -116,8 +125,7 @@ public class GameManager : MonoBehaviour
         {
             textWaveLabel.enabled = false;
             textWave.enabled = false;
-            textBossHPLabel.enabled = true;
-            textBossHP.enabled = true;
+            StartCoroutine(RoutineDelayBeforeDisplayingBossHP());
         }
     }
 
@@ -161,6 +169,16 @@ public class GameManager : MonoBehaviour
             shieldHUDSpriteRenderer.enabled = true;
             textShieldDuration.text = Mathf.CeilToInt(shieldDuration).ToString();
             textShieldDurationAroundPlayer.text = Mathf.CeilToInt(shieldDuration).ToString();
+        }
+    }
+
+    public void UpdateBossHealthText(int bossHP)
+    {
+        Debug.Log("I GOT THE BOSS BROADCAST METHOD, updating textboss HP");
+        if (textBossHP != null)
+        {
+            if (bossHP > 0) textBossHP.text = bossHP.ToString();
+            else textBossHP.text = "0";
         }
     }
 
@@ -235,5 +253,12 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.75f);
         HandleWeaponSelection();
+    }
+
+    private IEnumerator RoutineDelayBeforeDisplayingBossHP()
+    {
+        yield return new WaitForSeconds(4f);
+        textBossHPLabel.enabled = true;
+        textBossHP.enabled = true;
     }
 }

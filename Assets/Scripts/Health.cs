@@ -12,6 +12,9 @@ public class Health : MonoBehaviour
     [SerializeField] private UnityEvent<int> OnHealthChanged;
     [SerializeField] private UnityEvent<string> OnDied;
 
+    // alternative caller
+    public static Action<int> OnHealthChangeAlt;
+
     // shields
     [SerializeField] GameObject shield;
     private SpriteRenderer shieldSR;
@@ -77,6 +80,7 @@ public class Health : MonoBehaviour
         if (maxHealth == 0) maxHealth = 1;
         currentHealth = maxHealth;
         isInflictingLaserDamage = false;
+        if (gameObject.CompareTag("Boss")) OnHealthChangeAlt?.Invoke(currentHealth);
 
         if (shield == null && gameObject.CompareTag("Player")) GameObject.FindGameObjectWithTag("Shield");
         if (shield != null && shieldSR == null) shieldSR = shield.GetComponent<SpriteRenderer>();
@@ -213,6 +217,7 @@ public class Health : MonoBehaviour
         // data
         currentHealth--;
         OnHealthChanged.Invoke(currentHealth);
+        if (gameObject.CompareTag("Boss")) OnHealthChangeAlt?.Invoke(currentHealth);
 
         if (currentHealth <= 0)
         {

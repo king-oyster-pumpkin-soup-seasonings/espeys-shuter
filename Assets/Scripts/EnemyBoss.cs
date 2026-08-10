@@ -146,6 +146,8 @@ public class EnemyBoss : MonoBehaviour
 
         // --------------------- AFTER INTRO AND INTERMISSION --------------------
 
+        // GameManager.Instance.UpdateBossHealthText(67); // test
+
         Vector2 downUp = Vector2.down * Mathf.Sin(Time.time * (movementSpeed + 1.5f)) * 2.25f;
         Vector2 signatureMovement = transform.right * Mathf.Cos(Time.time * (movementSpeed + 1.5f)) * 10f;
         enemyBossRB.linearVelocity = downUp + signatureMovement;
@@ -206,6 +208,7 @@ public class EnemyBoss : MonoBehaviour
         if (GameManager.Instance != null)
             GameManager.Instance.AddScore(scoreValue);
 
+        StartCoroutine(TriggerIntermissionFor(1.5f));
         enemyBossRB.linearVelocity = Vector2.zero;
 
         spriteRenderer.sprite = explosionSprite;
