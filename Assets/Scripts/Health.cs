@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     // --- variables ---
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
+    [SerializeField] private bool isInvulnerable;
 
     [SerializeField] private UnityEvent<int> OnHealthChanged;
     [SerializeField] private UnityEvent<string> OnDied;
@@ -31,6 +32,7 @@ public class Health : MonoBehaviour
         GameManager.OnWaveComplete += SelfDestroyWithExplosionIfAny;
         GameManager.OnWaveStart += CheckThenSetPlayerHealthIfBelow3;
         EnemyBoss.EnemyBossDied += SelfDestroyWithExplosionIfAny;
+        EnemyBoss.EnemyBossSetInvulnerability += SetInvulnerability;
     }
 
     private void OnDisable()
@@ -38,6 +40,7 @@ public class Health : MonoBehaviour
         GameManager.OnWaveComplete -= SelfDestroyWithExplosionIfAny;
         GameManager.OnWaveStart -= CheckThenSetPlayerHealthIfBelow3;
         EnemyBoss.EnemyBossDied -= SelfDestroyWithExplosionIfAny;
+        EnemyBoss.EnemyBossSetInvulnerability -= SetInvulnerability;
     }
 
     void SelfDestroyWithExplosionIfAny()
@@ -48,6 +51,11 @@ public class Health : MonoBehaviour
         {
             TakeDamage("Asteroid");
         }
+    }
+
+    void SetInvulnerability(bool invulnerabilityValue)
+    {
+        isInvulnerable = invulnerabilityValue;
     }
 
     void CheckThenSetPlayerHealthIfBelow3()
@@ -80,7 +88,9 @@ public class Health : MonoBehaviour
         if (maxHealth == 0) maxHealth = 1;
         currentHealth = maxHealth;
         isInflictingLaserDamage = false;
+        isInvulnerable = false;
         if (gameObject.CompareTag("Boss")) OnHealthChangeAlt?.Invoke(currentHealth);
+        if (gameObject.CompareTag("Boss")) isInvulnerable = true;
 
         if (shield == null && gameObject.CompareTag("Player")) GameObject.FindGameObjectWithTag("Shield");
         if (shield != null && shieldSR == null) shieldSR = shield.GetComponent<SpriteRenderer>();
@@ -212,7 +222,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(string hittedBy = "")
     {
         // condition
-        if (onShield) return;
+        if (onShield || isInvulnerable) return;
 
         // data
         currentHealth--;

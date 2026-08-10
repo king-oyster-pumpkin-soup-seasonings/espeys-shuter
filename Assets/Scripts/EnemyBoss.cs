@@ -15,10 +15,12 @@ public class EnemyBoss : MonoBehaviour
 
     // BOSS CONDITIONS
     public static Action EnemyBossDied; // state
+    public static Action<bool> EnemyBossSetInvulnerability;
     private short fireLaser, shootBullets, spawnDrones; // weapons
     private bool isIntroSpawnDone, isIntermissionDone; // pause
     private short moveToOtherSide, moveToLeft, moveToRight; // movement
     private bool recastActions; // action permission
+
 
     // BOSS WEAPON
     [SerializeField] private Transform barrelCenter, barrelSide1, barrelSide2, circleBarrel1, circleBarrel2;
@@ -172,7 +174,11 @@ public class EnemyBoss : MonoBehaviour
         Debug.Log("TriggerIntermissionFor " + seconds);
         yield return new WaitForSeconds(seconds);
         isIntermissionDone = true;
-        if (isIntroSpawnDone) recastActions = true;
+        if (isIntroSpawnDone)
+        {
+            recastActions = true;
+            EnemyBossSetInvulnerability?.Invoke(false);
+        }
     }
 
     private IEnumerator ShootBullets(float seconds = 1f)
