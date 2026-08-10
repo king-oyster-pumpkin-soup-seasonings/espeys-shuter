@@ -60,11 +60,9 @@ public class EnemyBoss : MonoBehaviour
         // setting up
         transform.up = Vector2.down;
         isIntroSpawnDone = false;
-        StartCoroutine(TriggerIntermissionFor(5));
+        transform.position = new Vector2(0, 6.2f);
+        StartCoroutine(TriggerIntermissionFor(3f));
         // if (shootBullets == 1) StartCoroutine(ShootBullets(0.4f));
-
-
-        recastActions = true;
     }
 
     private short randomDecision()
@@ -101,7 +99,7 @@ public class EnemyBoss : MonoBehaviour
             if (moveToOtherSide == 1) moveToLeft = randomDecision();
             if (moveToLeft == 0 && moveToOtherSide == 1) moveToRight = 1; // if not left, then right
 
-            StartCoroutine(RecastNewActionsAfter(3f));
+            StartCoroutine(RecastNewActionsAfter(5f));
         }
 
         if (shootBullets == 1)
@@ -127,10 +125,14 @@ public class EnemyBoss : MonoBehaviour
     private void FixedUpdate()
     {
         // transform.up = playerTransform.position - transform.position;
-        if (!isIntroSpawnDone)
+        if (!isIntroSpawnDone && isIntermissionDone)
         {
             enemyBossRB.linearVelocity = transform.up * movementSpeed;
-            if (enemyBossRB.position.y < 2.25f) isIntroSpawnDone = true;
+            if (enemyBossRB.position.y < 4f)
+            {
+                isIntroSpawnDone = true;
+                StartCoroutine(TriggerIntermissionFor(3f));
+            }
             // Debug.Log($"isIntroSpawnDone: {isIntroSpawnDone}");
         }
 
@@ -168,6 +170,7 @@ public class EnemyBoss : MonoBehaviour
         Debug.Log("TriggerIntermissionFor " + seconds);
         yield return new WaitForSeconds(seconds);
         isIntermissionDone = true;
+        if (isIntroSpawnDone) recastActions = true;
     }
 
     private IEnumerator ShootBullets(float seconds = 1f)
