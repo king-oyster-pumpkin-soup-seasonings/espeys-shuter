@@ -26,12 +26,14 @@ public class Health : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnWaveComplete += SelfDestroyWithExplosionIfAny;
+        GameManager.OnWaveStart += CheckThenSetPlayerHealthIfBelow3;
         EnemyBoss.EnemyBossDied += SelfDestroyWithExplosionIfAny;
     }
 
     private void OnDisable()
     {
         GameManager.OnWaveComplete -= SelfDestroyWithExplosionIfAny;
+        GameManager.OnWaveStart -= CheckThenSetPlayerHealthIfBelow3;
         EnemyBoss.EnemyBossDied -= SelfDestroyWithExplosionIfAny;
     }
 
@@ -42,6 +44,15 @@ public class Health : MonoBehaviour
         while (currentHealth > 0)
         {
             TakeDamage();
+        }
+    }
+
+    void CheckThenSetPlayerHealthIfBelow3()
+    {
+        if (gameObject.CompareTag("Player") && currentHealth < 3)
+        {
+            currentHealth = 3;
+            OnHealthChanged?.Invoke(currentHealth);
         }
     }
 

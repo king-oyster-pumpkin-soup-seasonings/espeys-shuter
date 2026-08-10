@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         if (playerRigidBody == null) playerRigidBody = GetComponent<Rigidbody2D>();
         if (movementSpeed == 0) movementSpeed = 8;
-        if (playerRigidBody != null) playerRigidBody.linearDamping = 1.25f;
+        if (playerRigidBody != null) playerRigidBody.linearDamping = 1.5f;
 
         GoToSpawnPoint();
     }
@@ -81,8 +81,8 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("PowerUpMovementSpeed"))
         {
             Destroy(other.gameObject);
-            movementSpeed += 7.5f;
-            playerRigidBody.linearDamping += 0.33f;
+            movementSpeed += 7f;
+            playerRigidBody.linearDamping += 0.5f;
 
             if (playerRigidBody.linearDamping >= 4.5f) playerRigidBody.linearDamping = 4.5f;
             if (movementSpeed >= 50f) movementSpeed = 50f;
