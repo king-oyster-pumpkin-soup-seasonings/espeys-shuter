@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletRB: {fileID: 8186639649649310092}
+  bulletTransform: {fileID: 7193165391250133443}
   bulletSpeed: 0
   bulletSR: {fileID: 3738702761201984911}
   bulletCollider: {fileID: 3525428055323860370}

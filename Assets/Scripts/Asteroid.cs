@@ -34,7 +34,7 @@ public class Asteroid : MonoBehaviour
         if (isExploding) return;
         isExploding = true;
 
-        Debug.Log($"HITTED BY {hittedBy}");
+        // Debug.Log($"HITTED BY {hittedBy}");
 
         if ((GameManager.Instance != null && GameManager.Instance.waveIsOngoing) &&
             (!hittedBy.Equals("Boss") && !hittedBy.Equals("")))

@@ -5,19 +5,27 @@ using Random = UnityEngine.Random;
 
 public class EnemyBoss : MonoBehaviour
 {
-    // BOSS
-    [SerializeField] private float movementSpeed;
+    // BOSS APPEARANCE
     [SerializeField] private Rigidbody2D enemyBossRB;
+    [SerializeField] private Transform enemyBossTransform;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite explosionSprite;
-    [SerializeField] private int scoreValue;
-    private bool isExploding;
+    [SerializeField] private SpriteRenderer shieldSprite;
+    [SerializeField] private Rigidbody2D shieldRB;
+    [SerializeField] private CircleCollider2D shieldCollider;
+    [SerializeField] private Transform shieldTransform;
 
-    // BOSS CONDITIONS
+    // BOSS TRAITS
+    [SerializeField] private float movementSpeed;
+    [SerializeField] private int scoreValue;
+
+    // BOSS CONDITIONS AND STATES
+    private bool isExploding;
     public static Action EnemyBossDied; // state
     public static Action<bool> EnemyBossSetInvulnerability;
     private short fireLaser, shootBullets, spawnDrones; // weapons
     private bool isIntroSpawnDone, isIntermissionDone; // pause
+    private short isShieldOn; // shield
     private short moveToOtherSide, moveToLeft, moveToRight; // movement
     private bool recastActions; // action permission
 
@@ -41,6 +49,9 @@ public class EnemyBoss : MonoBehaviour
         moveToLeft = 0;
         moveToRight = 0;
         recastActions = false;
+        isShieldOn = 0;
+        shieldSprite.enabled = false;
+        shieldCollider.enabled = false;
 
         // object
         if (movementSpeed == 0) movementSpeed = 1f;
@@ -96,6 +107,9 @@ public class EnemyBoss : MonoBehaviour
             // weapons use
             shootBullets = randomDecision();
 
+            // shield?
+            isShieldOn = randomDecision();
+
             // movement direction
             moveToOtherSide = randomDecision();
             if (moveToOtherSide == 1) moveToLeft = randomDecision();
@@ -121,6 +135,19 @@ public class EnemyBoss : MonoBehaviour
 
                 timeForNextFire = Time.time + bulletFireRate;
             }
+        }
+
+        if (isShieldOn == 1)
+        {
+            shieldSprite.enabled = true;
+            shieldCollider.enabled = true;
+            EnemyBossSetInvulnerability?.Invoke(true);
+            StartCoroutine(RoutineInvulnerabilityExpireAfter(Random.Range(5f, 8f)));
+        }
+
+        if (shieldSprite.enabled)
+        {
+            shieldTransform.position = enemyBossTransform.position;
         }
     }
 
@@ -156,16 +183,31 @@ public class EnemyBoss : MonoBehaviour
 
         if (moveToRight == 1 && moveToLeft == 0)
         {
-            Debug.Log($"going right {enemyBossRB.position.x}");
+            // Debug.Log($"going right {enemyBossRB.position.x}");
             enemyBossRB.linearVelocity = Vector2.right * movementSpeed;
         }
 
         if (moveToLeft == 1 && moveToRight == 0)
         {
-            Debug.Log($"going left {enemyBossRB.position.x}");
+            // Debug.Log($"going left {enemyBossRB.position.x}");
             enemyBossRB.linearVelocity = Vector2.left * movementSpeed;
             if (transform.position.x < -6f) moveToLeft = 0;
         }
+
+        if (shieldSprite.enabled)
+        {
+            shieldRB.angularVelocity = 23f;
+        }
+        else shieldRB.rotation = 0;
+    }
+
+    private IEnumerator RoutineInvulnerabilityExpireAfter(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        shieldSprite.enabled = false;
+        shieldCollider.enabled = false;
+        isShieldOn = 0;
+        EnemyBossSetInvulnerability?.Invoke(false);
     }
 
     private IEnumerator TriggerIntermissionFor(float seconds = 1f)

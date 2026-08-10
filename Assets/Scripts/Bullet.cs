@@ -4,6 +4,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D bulletRB;
+    [SerializeField] private Transform bulletTransform;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private SpriteRenderer bulletSR;
     [SerializeField] private BoxCollider2D bulletCollider;
@@ -27,6 +28,14 @@ public class Bullet : MonoBehaviour
         {
             BulletOnHit();
         }
+
+        if (gameObject.CompareTag("PlayerBullet") && other.CompareTag("ShieldBoss"))
+        {
+            bulletRB.linearVelocity = -transform.up * (bulletSpeed + 0.5f);
+            bulletTransform.localScale = new Vector2(0.1f, 0.25f);
+            gameObject.tag = "EnemyBullet";
+        }
+
         else if (gameObject.CompareTag("EnemyBullet") && other.CompareTag("Player")) BulletOnHit();
     }
 

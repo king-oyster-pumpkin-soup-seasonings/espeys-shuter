@@ -55,7 +55,7 @@ public class Health : MonoBehaviour
 
     void SetInvulnerability(bool invulnerabilityValue)
     {
-        isInvulnerable = invulnerabilityValue;
+        if (CompareTag("Boss")) isInvulnerable = invulnerabilityValue;
     }
 
     void CheckThenSetPlayerHealthIfBelow3()
@@ -135,7 +135,7 @@ public class Health : MonoBehaviour
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("EnemyFighter") ||
             gameObject.CompareTag("Player") && other.gameObject.CompareTag("Asteroid"))
         {
-            TakeDamage(other.tag);
+            if (GameManager.Instance.waveIsOngoing) TakeDamage(other.tag);
         }
 
         // Object collides with missile
