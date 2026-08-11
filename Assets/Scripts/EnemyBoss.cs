@@ -35,14 +35,31 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private GameObject enemyBullet, enemyLaser, enemyDrones;
     [SerializeField] private float bulletFireRate;
     private float timeForNextFire;
-    private bool firedFirstSide;
+    private bool firedFirstSide, isLaserAvailable;
 
     // PLAYER AS TARGET
     [SerializeField] private GameObject player;
     private Transform playerTransform;
 
+
+    private void OnEnable()
+    {
+        Laser.LaserIsDone += SetLaserAsAvailable;
+    }
+
+    private void OnDisable()
+    {
+        Laser.LaserIsDone -= SetLaserAsAvailable;
+    }
+
+    private void SetLaserAsAvailable()
+    {
+        isLaserAvailable = true;
+    }
+
     void Start()
     {
+        isLaserAvailable = true;
         fireLaser = 0;
         shootBullets = 0;
         spawnDrones = 0;
@@ -102,10 +119,11 @@ public class EnemyBoss : MonoBehaviour
         if (recastActions)
         {
             // weapon modifiers
-            bulletFireRate = Random.Range(0.1f, 0.4f);
+            bulletFireRate = Random.Range(0.05f, 0.4f);
 
             // weapons use
             shootBullets = randomDecision();
+            fireLaser = randomDecision();
 
             // shield?
             isShieldOn = randomDecision();
@@ -114,6 +132,12 @@ public class EnemyBoss : MonoBehaviour
             moveToOtherSide = randomDecision();
             if (moveToOtherSide == 1) moveToLeft = randomDecision();
             if (moveToLeft == 0 && moveToOtherSide == 1) moveToRight = 1; // if not left, then right
+
+            if (fireLaser == 1 && isLaserAvailable)
+            {
+                Instantiate(enemyLaser, transform.position, transform.rotation);
+                isLaserAvailable = false;
+            }
 
             StartCoroutine(RecastNewActionsAfter(5f));
         }
@@ -139,10 +163,12 @@ public class EnemyBoss : MonoBehaviour
 
         if (isShieldOn == 1)
         {
+            if (!shieldSprite.enabled) return;
+
+            StartCoroutine(RoutineInvulnerabilityExpireAfter(Random.Range(5f, 8f)));
             shieldSprite.enabled = true;
             shieldCollider.enabled = true;
             EnemyBossSetInvulnerability?.Invoke(true);
-            StartCoroutine(RoutineInvulnerabilityExpireAfter(Random.Range(5f, 8f)));
         }
 
         if (shieldSprite.enabled)
@@ -220,18 +246,6 @@ public class EnemyBoss : MonoBehaviour
         {
             recastActions = true;
             EnemyBossSetInvulnerability?.Invoke(false);
-        }
-    }
-
-    private IEnumerator ShootBullets(float seconds = 1f)
-    {
-        yield return new WaitForSeconds(1f);
-        while (shootBullets == 1)
-        {
-            yield return new WaitForSeconds(seconds);
-            Instantiate(enemyBullet, barrelSide1.position, barrelSide1.rotation);
-            yield return new WaitForSeconds(seconds);
-            Instantiate(enemyBullet, barrelSide2.position, barrelSide2.rotation);
         }
     }
 

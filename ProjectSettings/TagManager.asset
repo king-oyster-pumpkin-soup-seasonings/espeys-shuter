@@ -33,6 +33,7 @@ TagManager:
   - EnemySpartan
   - EnemyFighter
   - ShieldBoss
+  - EnemyLaser
   layers:
   - Default
   - TransparentFX

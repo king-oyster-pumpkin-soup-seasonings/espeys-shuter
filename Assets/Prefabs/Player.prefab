@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5994131753816952389}
   m_Layer: 0
   m_Name: LaserPoint
-  m_TagString: Untagged
+  m_TagString: LaserPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -293,6 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   currentHealth: 0
+  isInvulnerable: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls:
