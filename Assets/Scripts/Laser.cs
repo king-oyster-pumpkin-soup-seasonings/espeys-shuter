@@ -16,32 +16,50 @@ public class Laser : MonoBehaviour
 
     void Start()
     {
-        // if (laserUser == null) laserUser = GameObject.FindGameObjectWithTag("Boss");
-
         if (laserBurst == null)
-            laserBurst = GameObject.FindGameObjectWithTag("BossLaserBurst").GetComponent<SpriteRenderer>();
+            laserBurst = GameObject.FindGameObjectWithTag("BossLaserBurst")?.GetComponent<SpriteRenderer>();
         if (laserBurst != null) laserBurst.enabled = false;
 
-        if (gameObject.CompareTag("Laser") && laserPoint == null)
-            laserPoint = GameObject.FindGameObjectWithTag("LaserPoint").transform;
-        if (gameObject.CompareTag("EnemyLaser") && laserPoint == null)
+        // Player Laser setup
+        if (gameObject.CompareTag("Laser"))
         {
-            laserPoint = GameObject.FindGameObjectWithTag("BossLaserPoint").transform;
-            transform.SetParent(laserPoint);
-            transform.localPosition = new Vector3(0f, 5f, 0f);
-            laserPoint.eulerAngles = new Vector3(0, 0, 180f);
-        }
+            if (laserPoint == null)
+            {
+                GameObject targetPoint = GameObject.FindGameObjectWithTag("LaserPoint");
+                if (targetPoint != null) laserPoint = targetPoint.transform;
+            }
 
-        if (gameObject.CompareTag("Laser")) StartCoroutine(LaserOnFire());
+            if (laserPoint != null)
+            {
+                transform.SetParent(laserPoint);
+                transform.localPosition = Vector3.zero;
+                transform.localRotation = Quaternion.identity;
+            }
+
+            StartCoroutine(LaserOnFire());
+        }
+        // Enemy Laser setup
         else if (gameObject.CompareTag("EnemyLaser"))
         {
-            laserBurst.enabled = true;
+            if (laserPoint == null)
+            {
+                GameObject targetPoint = GameObject.FindGameObjectWithTag("BossLaserPoint");
+                if (targetPoint != null) laserPoint = targetPoint.transform;
+            }
+
+            if (laserPoint != null)
+            {
+                transform.SetParent(laserPoint);
+                transform.localPosition = new Vector3(0f, 5f, 0f);
+                laserPoint.eulerAngles = new Vector3(0, 0, 180f);
+            }
+
+            if (laserBurst != null) laserBurst.enabled = true;
             StartCoroutine(EnemyLaserOnFire());
         }
 
         isRotatable = false;
-
-        switchEndpoint = (Random.Range(0, 1) < 0.5);
+        switchEndpoint = (Random.value < 0.5f);
         rotationSpeed = Random.Range(0.25f, 0.5f);
     }
 

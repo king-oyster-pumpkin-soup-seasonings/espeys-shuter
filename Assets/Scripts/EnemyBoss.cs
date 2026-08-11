@@ -23,7 +23,7 @@ public class EnemyBoss : MonoBehaviour
     private bool isExploding;
     public static Action EnemyBossDied; // state
     public static Action<bool> EnemyBossSetInvulnerability;
-    private short fireLaser, shootBullets, spawnDrones; // weapons
+    private short fireLaser, shootBullets, spawnDrones, swarmBullets; // weapons
     private bool isIntroSpawnDone, isIntermissionDone; // pause
     private short isShieldOn; // shield
     private short moveToOtherSide, moveToLeft, moveToRight; // movement
@@ -33,8 +33,8 @@ public class EnemyBoss : MonoBehaviour
     // BOSS WEAPON
     [SerializeField] private Transform barrelCenter, barrelSide1, barrelSide2, circleBarrel1, circleBarrel2;
     [SerializeField] private GameObject enemyBullet, enemyLaser, enemyDrones;
-    [SerializeField] private float bulletFireRate;
-    private float timeForNextFire;
+    [SerializeField] private float bulletFireRate, spawnRate, swarmFireRate;
+    private float timeForNextFire, timeForNextSpawnDrones, timeForNextSwarmFires;
     private bool firedFirstSide, isLaserAvailable;
 
     // PLAYER AS TARGET
@@ -63,6 +63,7 @@ public class EnemyBoss : MonoBehaviour
         fireLaser = 0;
         shootBullets = 0;
         spawnDrones = 0;
+        swarmBullets = 0;
         moveToLeft = 0;
         moveToRight = 0;
         recastActions = false;
@@ -80,8 +81,12 @@ public class EnemyBoss : MonoBehaviour
 
         // weapon
         if (bulletFireRate == 0) bulletFireRate = 0.4f;
+        if (spawnRate == 0) spawnRate = 2f;
+        if (swarmFireRate == 0) swarmFireRate = 0.4f;
         firedFirstSide = false;
         timeForNextFire = Time.time;
+        timeForNextSpawnDrones = Time.time;
+        timeForNextSwarmFires = Time.time;
 
         // player
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
@@ -98,6 +103,43 @@ public class EnemyBoss : MonoBehaviour
     private short randomDecision()
     {
         return (short)MathF.Floor(Random.Range(0, 2));
+    }
+
+    private void SelectWeapons()
+    {
+        shootBullets = 0;
+        fireLaser = 0;
+        spawnDrones = 0;
+        swarmBullets = 0;
+
+        int weaponsToPick = Random.Range(1, 3);
+        int currentPicks = 0;
+
+        while (currentPicks < weaponsToPick)
+        {
+            int weaponChoice = Random.Range(0, 4);
+
+            if (weaponChoice == 0 && shootBullets == 0)
+            {
+                shootBullets = 1;
+                currentPicks++;
+            }
+            else if (weaponChoice == 1 && fireLaser == 0)
+            {
+                fireLaser = 1;
+                currentPicks++;
+            }
+            else if (weaponChoice == 2 && spawnDrones == 0)
+            {
+                spawnDrones = 1;
+                currentPicks++;
+            }
+            else if (weaponChoice == 3 && swarmBullets == 0)
+            {
+                swarmBullets = 1;
+                currentPicks++;
+            }
+        }
     }
 
     private void Update()
@@ -120,13 +162,15 @@ public class EnemyBoss : MonoBehaviour
         {
             // weapon modifiers
             bulletFireRate = Random.Range(0.05f, 0.4f);
+            spawnRate = Random.Range(2f, 4.5f);
+            swarmFireRate = Random.Range(0.2f, 0.4f);
 
             // weapons use
-            shootBullets = randomDecision();
-            fireLaser = randomDecision();
+            SelectWeapons();
 
             // shield?
             isShieldOn = randomDecision();
+            // isShieldOn = ((short)Random.Range(0, 10));
 
             // movement direction
             moveToOtherSide = randomDecision();
@@ -161,14 +205,61 @@ public class EnemyBoss : MonoBehaviour
             }
         }
 
+        if (spawnDrones == 1)
+        {
+            if (Time.time >= timeForNextSpawnDrones)
+            {
+                if (firedFirstSide == false)
+                {
+                    circleBarrel1.eulerAngles = new Vector3(0, 0, Random.Range(0, 360f));
+                    Instantiate(enemyDrones, circleBarrel1.position, circleBarrel1.rotation);
+                    firedFirstSide = true;
+                }
+                else
+                {
+                    circleBarrel2.eulerAngles = new Vector3(0, 0, Random.Range(0, 360f));
+                    Instantiate(enemyDrones, circleBarrel2.position, circleBarrel2.rotation);
+                    firedFirstSide = false;
+                }
+
+                timeForNextSpawnDrones = Time.time + spawnRate;
+            }
+        }
+
+        if (swarmBullets == 1)
+        {
+            if (Time.time >= timeForNextSwarmFires)
+            {
+                if (firedFirstSide == false)
+                {
+                    circleBarrel1.eulerAngles = new Vector3(0, 0, Random.Range(0, 360f));
+                    Instantiate(enemyBullet, circleBarrel1.position, circleBarrel1.rotation);
+                    circleBarrel1.eulerAngles = new Vector3(0, 0, Random.Range(0, 360f));
+                    Instantiate(enemyBullet, circleBarrel1.position, circleBarrel1.rotation);
+                    firedFirstSide = true;
+                }
+                else
+                {
+                    circleBarrel2.eulerAngles = new Vector3(0, 0, Random.Range(0, 360f));
+                    Instantiate(enemyBullet, circleBarrel2.position, circleBarrel2.rotation);
+                    circleBarrel1.eulerAngles = new Vector3(0, 0, Random.Range(0, 360f));
+                    Instantiate(enemyBullet, circleBarrel1.position, circleBarrel1.rotation);
+                    firedFirstSide = false;
+                }
+
+                timeForNextSwarmFires = Time.time + swarmFireRate;
+            }
+        }
+
         if (isShieldOn == 1)
         {
-            if (!shieldSprite.enabled) return;
-
-            StartCoroutine(RoutineInvulnerabilityExpireAfter(Random.Range(5f, 8f)));
-            shieldSprite.enabled = true;
-            shieldCollider.enabled = true;
-            EnemyBossSetInvulnerability?.Invoke(true);
+            if (!shieldSprite.enabled)
+            {
+                StartCoroutine(RoutineInvulnerabilityExpireAfter(Random.Range(5f, 8f)));
+                shieldSprite.enabled = true;
+                shieldCollider.enabled = true;
+                EnemyBossSetInvulnerability?.Invoke(true);
+            }
         }
 
         if (shieldSprite.enabled)

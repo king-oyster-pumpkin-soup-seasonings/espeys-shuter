@@ -54,11 +54,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InitializeValues();
-        // StartCoroutine(StartGameIntroMessageRoutine());
+        StartCoroutine(StartGameIntroMessageRoutine());
         UpdateShieldHUD(0);
         UpdateWaveText(wave);
-        wave = 6; // debug test A
-        HandleWeaponSelection(); // debug test A
+        // wave = 6; // debug test A
+        // HandleWeaponSelection(); // debug test A
         // StartWave(); //test. should be deleted or commented: comment corutine startgameintromessageroutine first!
     }
 

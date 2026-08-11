@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
     private float time;
     private int aliveEnemyCount;
     public int spawnCount, spawnLimit;
+    private bool bossHasSpawned;
 
 
     private void OnEnable()
@@ -28,6 +29,7 @@ public class EnemySpawner : MonoBehaviour
         if (spawnInterval == 0) spawnInterval = 1f;
         if (spawnLimit == 0) spawnLimit = 5;
         time = 0;
+        bossHasSpawned = false;
     }
 
     void StartSpawningUponWaveStart()
@@ -189,13 +191,14 @@ public class EnemySpawner : MonoBehaviour
         else if (waveNum == 6)
         {
             Spawn(enemyBosses[0]);
+            bossHasSpawned = true;
             yield return new WaitForSeconds(2f);
         }
 
 
         yield return new WaitUntil(() => aliveEnemyCount <= 0);
         yield return new WaitForSeconds(3f);
-        GameManager.Instance.TriggerWaveComplete();
+        if (!bossHasSpawned) GameManager.Instance.TriggerWaveComplete();
         Debug.Log("WAVE COMPLETED!");
     }
 }

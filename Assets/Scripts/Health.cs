@@ -112,9 +112,15 @@ public class Health : MonoBehaviour
         {
             StartCoroutine(InflictLaserDamagePerSecond());
         }
+
+        if (!isInflictingLaserDamage && other.CompareTag("EnemyLaser") &&
+            (gameObject.CompareTag("Player") || gameObject.CompareTag("Asteroid")))
+        {
+            StartCoroutine(InflictLaserDamagePerSecond());
+        }
     }
 
-    private IEnumerator InflictLaserDamagePerSecond(float seconds = 0.125f)
+    private IEnumerator InflictLaserDamagePerSecond(float seconds = 0.25f)
     {
         isInflictingLaserDamage = true;
         TakeDamage("Laser");
@@ -148,7 +154,6 @@ public class Health : MonoBehaviour
         {
             TakeDamage(other.tag);
             TakeDamage(other.tag);
-            TakeDamage(other.tag);
             Destroy(other.gameObject);
         }
 
@@ -161,8 +166,6 @@ public class Health : MonoBehaviour
             && other.gameObject.CompareTag("BombExplosion"))
         {
             // Debug.Log($"EXPLOSION HIT: {gameObject.name}");
-            TakeDamage(other.tag);
-            TakeDamage(other.tag);
             TakeDamage(other.tag);
             TakeDamage(other.tag);
             TakeDamage(other.tag);

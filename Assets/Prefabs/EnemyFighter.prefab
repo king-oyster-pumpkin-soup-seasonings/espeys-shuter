@@ -155,7 +155,7 @@ MonoBehaviour:
   player: {fileID: 4140073522730106551, guid: 5b4c531b2fba2e06dbdad3a76f5cb260, type: 3}
   spriteRenderer: {fileID: 3039544721629058848}
   explosionSprite: {fileID: -6474883903819434044, guid: 18289f989de726f5db80f1d2865b19b4, type: 3}
-  scoreValue: 20
+  scoreValue: 10
   widthMovement: 1
   rotationSpeed: 0
   barrel1: {fileID: 0}
@@ -178,6 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2
   currentHealth: 0
+  isInvulnerable: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
