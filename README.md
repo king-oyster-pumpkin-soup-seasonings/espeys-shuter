@@ -15,6 +15,7 @@ A simple Unity top-down WASD + SPACE + JKL space shooter.
 ## Gallery
 
 ![title screen](docs/gallery/Screenshot_20260812_172323.jpg)
+
 *Caption: title screen. title + space + play*
 
 ![alt text](docs/gallery/Screenshot_20260812_172336.jpg)
