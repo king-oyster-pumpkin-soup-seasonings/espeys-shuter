@@ -2,6 +2,8 @@
 
 A simple Unity top-down WASD + SPACE + JKL space shooter.
 
+![title screen](docs/gallery/Screenshot_20260812_172323.jpg)
+
 ## Overview
 - Fast-paced, 10–15 minute rounds
 - Wave-based spacecraft enemies with final boss! ...and asteroids ~
@@ -14,24 +16,29 @@ A simple Unity top-down WASD + SPACE + JKL space shooter.
 
 ## Gallery
 
-![title screen](docs/gallery/Screenshot_20260812_172323.jpg)
-
-*Caption: title screen. title + space + play*
-
 ![alt text](docs/gallery/Screenshot_20260812_172336.jpg)
+
 *Caption: intro scene you will see in the beginning*
 
+
 ![game over screen](docs/gallery/Screenshot_20260812_172435.jpg)
+
 *Caption: game over screen, but you can retry! and get better!*
 
+
 ![weapon chooser](docs/gallery/Screenshot_20260812_184145.jpg)
+
 *Caption: choose a random weapon depends on which powerups you've got for better synergies.*
 
+
 ![alt text](docs/gallery/Screenshot_20260812_184834.jpg)
+
 *Caption: boss battle scene. Play the game you will see more its interesting interactions!*
+
 
 ![alt text](docs/gallery/Screenshot_20260812_185017.jpg)
 ![alt text](docs/gallery/Screenshot_20260812_185104.jpg)
+
 *Caption: some gameplay scenes*
 
 ## Credits
