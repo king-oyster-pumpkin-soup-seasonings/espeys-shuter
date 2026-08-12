@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eac33bd1f5ea97fa9a5f1a06b8b96ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 10
   currentHealth: 0
   isInvulnerable: 0
   OnHealthChanged:
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806b9837cc4f26041a1d2817d994040f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 0
+  movementSpeed: 20
   playerRigidBody: {fileID: 7988134392061579897}
   spriteRenderer: {fileID: 1263156189394125597}
   explosionSprite: {fileID: -6474883903819434044, guid: 18289f989de726f5db80f1d2865b19b4, type: 3}
@@ -355,7 +355,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0.67
+  m_LinearDamping: 8
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -441,7 +441,7 @@ MonoBehaviour:
   rightBarrelPoint: {fileID: 1111932478632345520}
   laserPoint: {fileID: 0}
   bombPoint: {fileID: 0}
-  fireRate: 0
+  fireRate: 0.2
   currentWeaponUse: 0
 --- !u!1 &6140553946090401324
 GameObject:

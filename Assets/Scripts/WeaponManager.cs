@@ -49,7 +49,7 @@ public class WeaponManager : MonoBehaviour
     {
         // weaponSet.Clear();
         if (fireRate == 0) fireRate = 0.8f;
-        if (laserCooldownSet == 0) laserCooldownSet = 12f;
+        if (laserCooldownSet == 0) laserCooldownSet = 20f;
         if (bombMaxAmmo == 0) bombMaxAmmo = 5;
         if (missileMaxAmmo == 0) missileMaxAmmo = 3;
         bombAmmo = bombMaxAmmo - 1;

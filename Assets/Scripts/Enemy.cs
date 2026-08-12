@@ -101,7 +101,7 @@ public class Enemy : MonoBehaviour
             transform.position = new Vector2(transform.position.x, 8f);
 
         // THE REST
-        if (enemyRB.position.y >= 6f || enemyRB.position.y <= -6f && !gameObject.CompareTag("EnemySprayer"))
+        if (enemyRB.position.y >= 5.7f || enemyRB.position.y <= -5.6f && !gameObject.CompareTag("EnemySprayer"))
             transform.position = new Vector2(transform.position.x, 5.5f);
 
         if (enemyRB.position.x >= 9.2f || enemyRB.position.x <= -9.2f && !gameObject.CompareTag("EnemySprayer"))

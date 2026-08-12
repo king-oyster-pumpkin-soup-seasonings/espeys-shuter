@@ -63,6 +63,7 @@ public class EnemySpawner : MonoBehaviour
     void OnEnemyDied()
     {
         aliveEnemyCount--;
+        Debug.Log($"Enemy Alive: {aliveEnemyCount}");
     }
 
     void Spawn(GameObject enemy)
@@ -148,6 +149,19 @@ public class EnemySpawner : MonoBehaviour
             }
 
             yield return new WaitUntil(() => aliveEnemyCount <= 0);
+            yield return new WaitForSeconds(3f);
+
+            for (int i = 0; i < 5; i++)
+            {
+                RandomizeSpawnPoint();
+                Spawn(enemies[0]);
+                yield return new WaitForSeconds(1f);
+                RandomizeSpawnPoint();
+                Spawn(enemies[1]);
+                yield return new WaitForSeconds(2f);
+            }
+
+            yield return new WaitUntil(() => aliveEnemyCount <= 0);
         }
 
         // WAVE 4
@@ -171,12 +185,25 @@ public class EnemySpawner : MonoBehaviour
 
                 yield return new WaitUntil(() => aliveEnemyCount <= 3);
             }
+
+            yield return new WaitUntil(() => aliveEnemyCount <= 0);
+            yield return new WaitForSeconds(3f);
+
+            for (int i = 0; i < 5; i++)
+            {
+                RandomizeSpawnPoint();
+                Spawn(enemies[1]);
+                yield return new WaitForSeconds(1f);
+                RandomizeSpawnPoint();
+                Spawn(enemies[2]);
+                yield return new WaitForSeconds(2f);
+            }
         }
 
         // WAVE 5
         else if (waveNum == 5)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 3; i++)
             {
                 RandomizeSpawnPoint();
                 Spawn(enemies[0]);
@@ -185,6 +212,36 @@ public class EnemySpawner : MonoBehaviour
                 RandomizeSpawnPoint();
                 Spawn(enemies[2]);
                 yield return new WaitForSeconds(2f);
+            }
+
+            yield return new WaitUntil(() => aliveEnemyCount <= 0);
+            yield return new WaitForSeconds(3f);
+
+            for (int i = 0; i < 3; i++)
+            {
+                RandomizeSpawnPoint();
+                Spawn(enemies[1]);
+                RandomizeSpawnPoint();
+                Spawn(enemies[0]);
+                yield return new WaitForSeconds(1f);
+                RandomizeSpawnPoint();
+                Spawn(enemies[2]);
+                RandomizeSpawnPoint();
+                Spawn(enemies[0]);
+                yield return new WaitForSeconds(2f);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    yield return new WaitForSeconds(1f);
+                    RandomizeSpawnPoint();
+                    Spawn(enemies[2]);
+                    RandomizeSpawnPoint();
+                    Spawn(enemies[1]);
+
+                    yield return new WaitUntil(() => aliveEnemyCount <= 0);
+                }
+
+                yield return new WaitUntil(() => aliveEnemyCount <= 0);
             }
         }
 
